@@ -8,95 +8,42 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\Api\Auth\LoginAuthRequest;
+use App\Http\Requests\Api\Auth\RegisterAuthRequest;
 
 class AuthController extends Controller
 {
-    /**
-     * Create User
-     * @param Request $request
-     * @return User 
-     */
-    public function createUser(Request $request)
+    public function login(LoginAuthRequest $request)
     {
-        try {
-            //Validated
-            $validateUser = Validator::make($request->all(), 
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password)
-            ]);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ], 200);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
+        if (!Auth::attempt($request->only(['email', 'password']))) {
+            return response()->json(["message" => "Неверный адрес почты или пароль"], 401);
         }
+
+        $user = User::where('email', $request->email)->first();
+        $token = $user->createToken('authToken')->plainTextToken;
+
+        $cookie = cookie('auth_token', $token, 60 * 24 * 7); // set the cookie for 7 days
+
+        return response()->json(['user' => $user, 'token' => $token])->withCookie($cookie);
     }
 
-    /**
-     * Login The User
-     * @param Request $request
-     * @return User
-     */
-    public function loginUser(Request $request)
+    public function register(RegisterAuthRequest $request)
     {
-        try {
-            $validateUser = Validator::make($request->all(), 
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            if(!Auth::attempt($request->only(['email', 'password']))){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
-                ], 401);
-            }
-
-            $user = User::where('email', $request->email)->first();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ], 200);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
+        if (User::where('email', $request->email)->exists()) {
+            return response()->json(["message" => "Пользователь с таким email уже существует"], 401);
         }
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+        
+        $user = User::where('email', $request->email)->first();
+        $token = $user->createToken('authToken')->plainTextToken;
+
+        $cookie = cookie('auth_token', $token, 60 * 24 * 7); // set the cookie for 7 days
+
+        return response()->json(['user' => $user, 'token' => $token])->withCookie($cookie);
     }
+    
 }
