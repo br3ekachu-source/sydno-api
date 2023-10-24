@@ -7,6 +7,7 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -34,7 +35,6 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
@@ -50,5 +50,8 @@ class FortifyServiceProvider extends ServiceProvider
         ResetPassword::createUrlUsing(function($notifiable, $token) {
             return url(env('SPA_URL'))."/auth/reset-password/{$token}?email={$notifiable->getEmailForPasswordReset()}";
         });
+        // VerifyEmail::createUrlUsing(function($notifiable) {              
+        //     return url(env('SPA_URL'))."/auth/email/verify/{$notifible->getEmail}?email={$notifiable->getEmailForVerification()}";
+        // });
     }
 }
