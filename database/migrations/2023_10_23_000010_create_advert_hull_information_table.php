@@ -19,9 +19,12 @@ return new class extends Migration
             $table->integer('longitudinal_bulkheads'); //продольные переборки
             $table->integer('transverse_bulkheads'); //поперечные переборки
             $table->boolean('second_bottom'); //второе дно
-            $table->integer('fireproof_bulkheads'); //потивопожарные переборки
             $table->float('overall_length'); //габаритная длина
             $table->float('board_height'); //высота борта
+            $table->float('overall_width'); //габаритная ширина
+            $table->float('power'); //мощность
+            $table->int('num_engines'); //кол-во двигателей
+            $table->json('generators'); //кол-во генераторов
             $table->float('height_from_main_plane'); //высота от основной плоскости
             $table->float('maximum_freeboard'); //максимальный надводный борт
             $table->boolean('inner_sides'); //внутренние борта

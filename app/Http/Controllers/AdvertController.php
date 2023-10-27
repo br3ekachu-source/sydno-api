@@ -41,12 +41,12 @@ class AdvertController extends Controller
             $advert->user_id = Auth::user()->id;
             $advert->price = $request->post('price');
             $advert->description = $request->post('description');
-            $advert->registration_number = $request->post('registrationNumber');
+            $advert->registration_number = $request->post('registration_number');
             $advert->phone_number = $request->post('phone');
             $advert->state = AdvertState::Draft;
             $advert->save();
 
-            return view('advert.create', ['step' => 'second']);
+            return response()->json($advert);
         } elseif ($request->post('step') == 'second')
         {
 

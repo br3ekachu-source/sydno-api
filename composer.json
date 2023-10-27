@@ -26,7 +26,12 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "classmap": [
+            "database",
+            "app/Http/Services"
+        ]
+        
     },
     "autoload-dev": {
         "psr-4": {

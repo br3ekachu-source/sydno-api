@@ -40,7 +40,6 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(5)->by($throttleKey);
         });
-
         // RateLimiter::for('two-factor', function (Request $request) {
         //     return Limit::perMinute(5)->by($request->session()->get('login.id'));
         // });
@@ -50,8 +49,8 @@ class FortifyServiceProvider extends ServiceProvider
         ResetPassword::createUrlUsing(function($notifiable, $token) {
             return url(env('SPA_URL'))."/auth/reset-password/{$token}?email={$notifiable->getEmailForPasswordReset()}";
         });
-        // VerifyEmail::createUrlUsing(function($notifiable) {              
-        //     return url(env('SPA_URL'))."/auth/email/verify/{$notifible->getEmail}?email={$notifiable->getEmailForVerification()}";
-        // });
+        VerifyEmail::createUrlUsing(function($notifiable) {              
+            return url(env('SPA_URL'))."/auth/verify/?id={$notifiable->getKey()}&hash=".sha1($notifiable->getEmailForVerification());
+        });
     }
 }

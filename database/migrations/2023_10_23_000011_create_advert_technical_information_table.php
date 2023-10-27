@@ -17,8 +17,6 @@ return new class extends Migration
             $table->float('max_speed_in_ballast'); //максимальная скорость в балласте
             $table->float('dock_weight'); //доковый вес
             $table->string('building_number'); //строительный номер
-            $table->smallInteger('class_formula_part_1'); //левая чать формулы класса
-            $table->smallInteger('class_formula_part_2'); //правая часть формулы класса
             $table->float('maximum_speed_when_loaded'); //максимальная скорость в грузу
             $table->float('full_displacement'); //водоизмещение полное
             $table->integer('passangers'); //пассажиров
