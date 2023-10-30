@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdvertStoreRequest;
 use App\Models\Advert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Services\AdvertState;
+use App\Models\AdvertImage;
 
 class AdvertController extends Controller
 {
@@ -32,7 +34,7 @@ class AdvertController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AdvertStoreRequest $request)
     {
         if ($request->post('step') == 'first')
         {
@@ -44,6 +46,18 @@ class AdvertController extends Controller
             $advert->registration_number = $request->post('registration_number');
             $advert->phone_number = $request->post('phone');
             $advert->state = AdvertState::Draft;
+
+            if($request->hasFile('images'))
+            {
+                $images = $request->file('images');
+                $imagesArray = [];
+                foreach ($images as $key=>$image) {
+                    $path = $image->store('advert_images');
+                    $imagesArray[$key] = $path;
+                }
+                $advert->images = json_encode($imagesArray);
+            }
+
             $advert->save();
 
             return response()->json($advert);

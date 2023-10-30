@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Services\AdvertState;
@@ -12,4 +14,8 @@ class Advert extends Model
     protected $casts = [
         'state' => AdvertState::class,
     ];
+
+    public function imagesclass(){
+        return 'dsada';
+    }
 }

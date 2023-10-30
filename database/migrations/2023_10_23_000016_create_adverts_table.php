@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignIdFor(AdvertTechnicalInformation::class)->nullable(); //техническая информация
             $table->foreignIdFor(AdvertHullInformation::class)->nullable(); //информация о корпусе
             $table->smallInteger('state'); //статус объявления
+            $table->json('images')->nullable(); //фотографии
             $table->string('header'); //заголовок
             $table->text('description'); //описание
             $table->string('phone_number');

@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('advert_legal_information', function (Blueprint $table) {
             $table->id();
             $table->smallInteger('flag'); //флаг
+            $table->smallInteger('exploitation_type'); //тип эксплуатации
             $table->smallInteger('class_formula_part_1'); //левая чать формулы класса
             $table->smallInteger('class_formula_part_2'); //правая часть формулы класса
-            $table->smallInteger('exploitation_type'); //тип эксплуатации
             $table->smallInteger('type'); //тип судна
             $table->string('purpose'); //назначение судна
             $table->boolean('was_registered'); //находилось ли на учете

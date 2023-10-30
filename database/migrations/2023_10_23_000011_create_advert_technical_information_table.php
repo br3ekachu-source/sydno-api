@@ -13,21 +13,31 @@ return new class extends Migration
     {
         Schema::create('advert_techincal_information', function (Blueprint $table) {
             $table->id();
+            $table->float('overall_length'); //габаритная длина
+            $table->float('overall_width'); //габаритная ширина
+            $table->float('board_height'); //высота борта
+            $table->float('maximum_freeboard'); //максимальный надводный борт
+            $table->smallInteger('material'); //материал корпуса
             $table->float('deadweight'); //дедвейт
-            $table->float('max_speed_in_ballast'); //максимальная скорость в балласте
             $table->float('dock_weight'); //доковый вес
-            $table->string('building_number'); //строительный номер
-            $table->float('maximum_speed_when_loaded'); //максимальная скорость в грузу
             $table->float('full_displacement'); //водоизмещение полное
-            $table->integer('passangers'); //пассажиров
-            $table->float('carrying'); //грузоподъемность
-            $table->smallInteger('distress_communication_systems'); //системы связи при бедствии
-            $table->integer('total_peoples'); //общее количество людей на борту 
-            $table->integer('crew_members'); //члены экипажа
-            $table->integer('visitors'); //посетителей
             $table->float('gross_tonnage'); //валовая вместимость
-            $table->float('registered_gross_tonnage'); //валовая вместимость (регистровых тонн)
-            $table->integer('specialized_personnel'); //специализированный персонал
+            $table->smallInteger('num_engines'); //кол-во двигателей
+            $table->float('power'); //мощность двигателей
+            $table->float('max_speed_in_ballast'); //максимальная скорость в балласте
+            $table->float('maximum_speed_when_loaded'); //максимальная скорость в грузу
+            $table->boolean('cargo_tanks'); //наличие грузовых танков
+            $table->float('total_capacity_cargo_tanks'); //суммарная вместимость грузовых танков
+            $table->boolean('second_bottom'); //второе дно
+            $table->boolean('second_sides'); //вторые борта
+            $table->float('carrying'); //грузоподъемность
+            $table->boolean('superstructures'); //наличие надстроек
+            $table->boolean('deckhouses'); //наличие рубок
+            $table->boolean('liquid_tanks'); //наличие наливных танков
+            $table->float('total_capacity_liquid_tanks'); //суммарная вместимость наливных танков
+            $table->boolean('passangers_avialable'); //наличие пассажировместимости
+            $table->integer('num_passangers'); //кол-во пассажиров
+            $table->boolean('technical_documentation'); //наличие пассажировместимости
             $table->timestamps();
         });
     }
