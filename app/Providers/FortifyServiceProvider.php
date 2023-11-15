@@ -51,7 +51,7 @@ class FortifyServiceProvider extends ServiceProvider
     protected function registerResponseBindings() {
         //переопределяем юрл для восстановления пароля
         ResetPassword::createUrlUsing(function($notifiable, $token) {
-            return url(env('SPA_URL'))."/auth/reset-password/{$token}?email={$notifiable->getEmailForPasswordReset()}";
+            return url(env('SPA_URL'))."/auth/reset-password/?hash={$token}&email={$notifiable->getEmailForPasswordReset()}";
         });
         //переопределяем юрл для подтверждения почты
         VerifyEmail::createUrlUsing(function($notifiable) {
