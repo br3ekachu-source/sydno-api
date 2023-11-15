@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Services\AdvertState;
 use App\Models\AdvertImage;
+use Illuminate\Support\Facades\Storage;
 
 class AdvertController extends Controller
 {
@@ -60,7 +61,22 @@ class AdvertController extends Controller
 
             $advert->save();
 
-            return response()->json($advert);
+            $response = [];
+            $response['id'] = $advert->id;
+            $response['header'] = $advert->header;
+            $response['price'] = $advert->price;
+            $response['user'] = $advert->user_id;
+            $response['description'] = $advert->description;
+            $response['registration_number'] = $advert->registration_number;
+            $response['phone'] = $advert->phone;
+            $response['step'] = 'first';
+            $imagesUrls = [];
+            foreach (json_decode($advert->images) as $key=>$image)
+            {
+                $imagesUrls[$key] = Storage::url($image);
+            }
+            $response['pictures_urls'] = $imagesUrls;
+            return response()->json($response);
         } elseif ($request->post('step') == 'second')
         {
 
