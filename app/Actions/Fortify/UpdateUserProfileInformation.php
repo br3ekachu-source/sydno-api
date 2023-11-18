@@ -18,25 +18,31 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(User $user, array $input): void
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['string', 'max:255'],
 
             'email' => [
-                'required',
                 'string',
                 'email',
                 'max:255',
                 Rule::unique('users')->ignore($user->id),
             ],
+            'phone_number' => ['max:20']
         ])->validateWithBag('updateProfileInformation');
-
+        
         if ($input['email'] !== $user->email &&
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
-            $user->forceFill([
-                'name' => $input['name'],
-                'email' => $input['email'],
-            ])->save();
+            if (isset($input['name'])) {
+                $user->name = $input['name'];
+            }
+            if (isset($input['email'])) {
+                $user->email = $input['email'];
+            }
+            if (isset($input['phone_number'])) {
+                $user->phone_number = $input['phone_number'];
+            }
+            $user->save();
         }
     }
 
@@ -47,10 +53,17 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     protected function updateVerifiedUser(User $user, array $input): void
     {
+        if (isset($input['name'])) {
+            $user->name = $input['name'];
+        }
+        if (isset($input['email'])) {
+            $user->email = $input['email'];
+        }
+        if (isset($input['phone_number'])) {
+            $user->phone_number = $input['phone_number'];
+        }
         $user->forceFill([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'email_verified_at' => null,
+            'email_verified_at' => null
         ])->save();
 
         $user->sendEmailVerificationNotification();

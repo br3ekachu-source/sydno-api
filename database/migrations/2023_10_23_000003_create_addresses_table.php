@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('city');
-            $table->string('region');
-            $table->string('street');
-            $table->string('home_number');
-            $table->integer('apart_number');
-            $table->integer('zip');
-            $table->string('coordinates');
+            $table->string('city')->nullable();
+            $table->string('region')->nullable();
+            $table->string('street')->nullable();
+            $table->string('home_number')->nullable();
+            $table->integer('apart_number')->nullable();
+            $table->integer('zip')->nullable();
+            $table->string('coordinates')->nullable();
             $table->timestamps();
         });
     }
