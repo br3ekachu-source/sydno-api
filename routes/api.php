@@ -9,6 +9,7 @@ use App\Http\Controllers\UserAvatarController;
 use App\Http\Controllers\UserController;
 use App\Models\AdvertLegalInformation;
 use App\Models\AdvertTechnicalInformation;
+use App\Http\Services\Consts;
 
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
@@ -18,4 +19,8 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::post('/user/avatar', [UserAvatarController::class, 'update']);
     Route::get('/user/avatar', [UserAvatarController::class, 'get']);
     Route::get('/user/avatar', [UserAvatarController::class, 'delete']);
+});
+
+Route::get('selector/vessel_types', function() {
+    return Consts::getVesselTypes();
 });

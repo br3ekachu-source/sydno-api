@@ -2,6 +2,48 @@
 
 namespace App\Http\Services;
 
+trait EnumToArray
+{
+
+  public static function names(): array
+  {
+    return array_column(self::cases(), 'name');
+  }
+
+  public static function values(): array
+  {
+    return array_column(self::cases(), 'value');
+  }
+
+  public static function array(): array
+  {
+    return array_combine(self::values(), self::names());
+  }
+
+}
+
+class Consts
+{
+    public static function getVesselTypes(){
+        return [
+            0 => 'Полноразмерное самоходное',
+            1 => 'Полноразмерное несамоходное',
+            2 => 'Маломерное самоходное',
+            3 => 'Маломерное несамоходное'
+        ];
+    }
+}
+
+enum AdvertStateOnRU: string
+{
+    use EnumToArray;
+    
+    case Hearts = 'H';
+    case Diamonds = 'D';
+    case Clubs = 'C';
+    case Spades = 'S';
+}
+
 enum AdvertState:int {
     case Draft = 1; //черновик
     case Moderation = 2; //на модерации
