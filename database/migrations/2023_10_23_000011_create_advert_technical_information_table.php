@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Advert;
 
 return new class extends Migration
 {
@@ -13,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('advert_techincal_information', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Advert::class);
             $table->float('overall_length'); //габаритная длина
             $table->float('overall_width'); //габаритная ширина
             $table->float('board_height'); //высота борта

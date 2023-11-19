@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Services\AdvertState;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+
 
 class Advert extends Model
 {
@@ -19,5 +22,15 @@ class Advert extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function advertLegalInformation(): HasOne
+    {
+        return $this->hasOne(AdvertLegalInformation::class);
+    }
+
+    public function advertTechnicalInformation(): HasOne
+    {
+        return $this->hasOne(AdvertTechnicalInformation::class);
     }
 }

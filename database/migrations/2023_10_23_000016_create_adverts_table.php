@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\AdvertLegalInformation;
-use App\Models\AdvertTechnicalInformation;
 use App\Models\User;
 use App\Models\Address;
 
@@ -21,8 +19,6 @@ return new class extends Migration
             $table->string('registration_number');
             $table->float('price'); //цена
             $table->foreignIdFor(Address::class)->nullable(); //адрес
-            $table->foreignIdFor(AdvertLegalInformation::class)->nullable(); //юридическая информация
-            $table->foreignIdFor(AdvertTechnicalInformation::class)->nullable(); //техническая информация
             $table->smallInteger('state'); //статус объявления
             $table->json('images')->nullable(); //фотографии
             $table->string('header'); //заголовок

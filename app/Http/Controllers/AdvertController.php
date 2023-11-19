@@ -37,50 +37,44 @@ class AdvertController extends Controller
      */
     public function store(AdvertStoreRequest $request)
     {
-        if ($request->post('step') == 'first')
+        $advert = new Advert();
+        $advert->header = $request->post('header');
+        $advert->user_id = Auth::user()->id;
+        $advert->price = $request->post('price');
+        $advert->description = $request->post('description');
+        $advert->registration_number = $request->post('registration_number');
+        $advert->phone_number = $request->post('phone');
+        $advert->state = AdvertState::Draft;
+
+        if($request->hasFile('images'))
         {
-            $advert = new Advert();
-            $advert->header = $request->post('header');
-            $advert->user_id = Auth::user()->id;
-            $advert->price = $request->post('price');
-            $advert->description = $request->post('description');
-            $advert->registration_number = $request->post('registration_number');
-            $advert->phone_number = $request->post('phone');
-            $advert->state = AdvertState::Draft;
-
-            if($request->hasFile('images'))
-            {
-                $images = $request->file('images');
-                $imagesArray = [];
-                foreach ($images as $key=>$image) {
-                    $path = $image->store('advert_images');
-                    $imagesArray[$key] = $path;
-                }
-                $advert->images = json_encode($imagesArray);
+            $images = $request->file('images');
+            $imagesArray = [];
+            foreach ($images as $key=>$image) {
+                $path = $image->store('advert_images');
+                $imagesArray[$key] = $path;
             }
-
-            $advert->save();
-
-            $response = [];
-            $response['id'] = $advert->id;
-            $response['header'] = $advert->header;
-            $response['price'] = $advert->price;
-            $response['user'] = $advert->user_id;
-            $response['description'] = $advert->description;
-            $response['registration_number'] = $advert->registration_number;
-            $response['phone'] = $advert->phone;
-            $response['step'] = 'first';
-            $imagesUrls = [];
-            foreach (json_decode($advert->images) as $key=>$image)
-            {
-                $imagesUrls[$key] = Storage::url($image);
-            }
-            $response['pictures_urls'] = $imagesUrls;
-            return response()->json($response);
-        } elseif ($request->post('step') == 'second')
-        {
-
+            $advert->images = json_encode($imagesArray);
         }
+
+        $advert->save();
+
+        $response = [];
+        $response['id'] = $advert->id;
+        $response['header'] = $advert->header;
+        $response['price'] = $advert->price;
+        $response['user'] = $advert->user_id;
+        $response['description'] = $advert->description;
+        $response['registration_number'] = $advert->registration_number;
+        $response['phone'] = $advert->phone_number;
+        $response['step'] = 'first';
+        $imagesUrls = [];
+        foreach (json_decode($advert->images) as $key=>$image)
+        {
+            $imagesUrls[$key] = Storage::url($image);
+        }
+        $response['pictures_urls'] = $imagesUrls;
+        return response()->json($response);
     }
 
     /**
