@@ -19,13 +19,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         Validator::make($input, [
             'name' => ['string', 'max:255'],
-
-            'email' => [
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-            ],
             'phone_number' => ['max:20']
         ])->validateWithBag('updateProfileInformation');
         
@@ -35,9 +28,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         } else {
             if (isset($input['name'])) {
                 $user->name = $input['name'];
-            }
-            if (isset($input['email'])) {
-                $user->email = $input['email'];
             }
             if (isset($input['phone_number'])) {
                 $user->phone_number = $input['phone_number'];
@@ -55,9 +45,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         if (isset($input['name'])) {
             $user->name = $input['name'];
-        }
-        if (isset($input['email'])) {
-            $user->email = $input['email'];
         }
         if (isset($input['phone_number'])) {
             $user->phone_number = $input['phone_number'];
