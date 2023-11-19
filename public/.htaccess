@@ -30,7 +30,7 @@
 # Allow cross-origin access to pictures.
 
 <IfModule mod_headers.c>
-    <FilesMatch "\.(jpeg|png)$">
-        Header set Access-Control-Allow-Origin "*"
-    </FilesMatch>
+
+    Header set Access-Control-Allow-Origin "*"
+
 </IfModule>
