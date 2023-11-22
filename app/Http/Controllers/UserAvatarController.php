@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\Files;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,18 +24,33 @@ class UserAvatarController extends Controller
         }
         $request->user()->avatar = $path;
         $request->user()->save();
-        return Storage::url($path);
+        return Files::getUrl($path);
     }
 
     public function get(Request $request)
     {
         if ($request->user()->avatar == null){
-            return response()->json(['message' => 'avatar not found']);
+            return response()->json(['message' => 'Пользователь не найден']);
         }
         if (Storage::exists($request->user()->avatar)){
-            return Storage::url($request->user()->avatar);
+            return Files::getUrl($request->user()->avatar);
         }
-        return response()->json(['message' => 'avatar not found']);
+        return response()->json(['message' => 'У пользователя нет аватара']);
+    }
+
+    public function get_avatar(Request $request, $user_id)
+    {
+        $user = User::find($user_id);
+        if ($user == null) {
+            return response()->json(['message' => 'Пользователь не найден']);
+        }
+        if ($user->avatar == null){
+            return response()->json(['message' => 'У пользователя нет аватара']);
+        }
+        if (Storage::exists($user->avatar)){
+            return Files::getUrl($user->avatar);
+        }
+        return response()->json(['message' => 'Аватар не найден']);
     }
 
     public function delete(Request $request)
