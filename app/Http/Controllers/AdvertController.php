@@ -43,7 +43,7 @@ class AdvertController extends Controller
         $advert->price = $request->post('price');
         $advert->description = $request->post('description');
         $advert->registration_number = $request->post('registration_number');
-        $advert->phone_number = $request->post('phone');
+        $advert->phone_number = $request->post('phone_number');
         $advert->state = AdvertState::Draft;
 
         if($request->hasFile('images'))
@@ -66,7 +66,7 @@ class AdvertController extends Controller
         $response['user'] = $advert->user_id;
         $response['description'] = $advert->description;
         $response['registration_number'] = $advert->registration_number;
-        $response['phone'] = $advert->phone_number;
+        $response['phone_numer'] = $advert->phone_number;
         $response['step'] = 'first';
         $imagesUrls = [];
         foreach (json_decode($advert->images) as $key=>$image)
