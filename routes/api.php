@@ -16,7 +16,7 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::resource('adverts_technical_information', AdvertTechnicalInformationController::class);
     Route::post('/user/avatar', [UserAvatarController::class, 'update']);
     Route::get('/user/avatar', [UserAvatarController::class, 'get']);
-    Route::get('/user/avatar', [UserAvatarController::class, 'delete']);
+    Route::delete('/user/avatar', [UserAvatarController::class, 'delete']);
 });
 
 Route::get('selector/vessel_types', function() {
