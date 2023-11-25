@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdvertStoreRequest;
+use App\Http\Services\AdvertState;
 use App\Models\Advert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Services\AdvertState;
-use App\Models\AdvertImage;
 use Illuminate\Support\Facades\Storage;
 
 class AdvertController extends Controller
