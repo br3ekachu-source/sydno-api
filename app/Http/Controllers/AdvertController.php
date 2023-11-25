@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdvertStoreRequest;
 use App\Http\Services\AdvertState;
+use App\Http\Services\Files;
 use App\Models\Advert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +71,7 @@ class AdvertController extends Controller
         $imagesUrls = [];
         foreach (json_decode($advert->images) as $key=>$image)
         {
-            $imagesUrls[$key] = Storage::url($image);
+            $imagesUrls[$key] = Files::getUrl($image);
         }
         $response['pictures_urls'] = $imagesUrls;
         return response()->json($response);
