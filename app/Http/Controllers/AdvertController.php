@@ -66,7 +66,7 @@ class AdvertController extends Controller
         $response['user'] = $advert->user_id;
         $response['description'] = $advert->description;
         $response['registration_number'] = $advert->registration_number;
-        $response['phone_numer'] = $advert->phone_number;
+        $response['phone_number'] = $advert->phone_number;
         $response['step'] = 'first';
         $imagesUrls = [];
         if (isset($request->images))
