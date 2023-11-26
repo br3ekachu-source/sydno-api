@@ -6,9 +6,11 @@ use App\Http\Requests\AdvertStoreRequest;
 use App\Http\Services\AdvertState;
 use App\Http\Services\Files;
 use App\Models\Advert;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 
 class AdvertController extends Controller
 {
@@ -78,6 +80,20 @@ class AdvertController extends Controller
         }
         $response['pictures_urls'] = $imagesUrls;
         return response()->json($response);
+    }
+
+    public function getInfo(Request $request)
+    {
+        $activeCount = $request->user()->adverts->where('state', '=', AdvertState::Active)->count();
+        $draftCount = $request->user()->adverts->where('state', '=', AdvertState::Draft)->count();
+        $inactiveCount = $request->user()->adverts->where('state', '=', AdvertState::Inactive)->count();
+        $moderationCount = $request->user()->adverts->where('state', '=', AdvertState::Moderation)->count();
+        return response()->json([
+            'active' => $activeCount ,
+            'draft' => $draftCount,
+            'inactive' => $inactiveCount,
+            'moderation' => $moderationCount
+        ]);
     }
 
     /**

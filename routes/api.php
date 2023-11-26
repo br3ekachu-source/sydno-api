@@ -7,11 +7,13 @@ use App\Http\Controllers\AdvertTechnicalInformationController;
 use App\Http\Controllers\UserAvatarController;
 use App\Http\Controllers\UserController;
 use App\Http\Services\Consts;
+use App\Models\Advert;
 use Illuminate\Support\Facades\Storage;
 
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
     Route::resource('adverts', AdvertController::class);
+    Route::get('adverts_info', [AdvertController::class, 'getInfo']);
     Route::resource('adverts_legal_information', AdvertLegalInformationController::class);
     Route::resource('adverts_technical_information', AdvertTechnicalInformationController::class);
     Route::post('/user/avatar', [UserAvatarController::class, 'update']);
