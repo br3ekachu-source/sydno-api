@@ -48,8 +48,7 @@ class AdvertController extends Controller
         $advert->phone_number = $request->post('phone_number');
         $advert->state = AdvertState::Draft;
 
-        if(isset($request->images))
-        {
+        if(isset($request->images)) {
             $images = $request->file('images');
             $imagesArray = [];
             foreach ($images as $key=>$image) {
@@ -71,10 +70,8 @@ class AdvertController extends Controller
         $response['phone_number'] = $advert->phone_number;
         $response['step'] = 'first';
         $imagesUrls = [];
-        if (isset($request->images))
-        {
-            foreach (json_decode($advert->images) as $key=>$image)
-            {
+        if (isset($request->images)) {
+            foreach (json_decode($advert->images) as $key=>$image) {
                 $imagesUrls[$key] = Files::getUrl($image);
             }
         }
@@ -94,6 +91,42 @@ class AdvertController extends Controller
             'inactive' => $inactiveCount,
             'moderation' => $moderationCount
         ]);
+    }
+
+    public function getMyAdverts(Request $request, $state)
+    {
+        $thisState = null;
+        switch ($state){
+            case 'active':
+                $thisState = AdvertState::Active;
+                break;
+            case ('draft'):
+                $thisState = AdvertState::Draft;
+                break;
+            case ('inactive'):
+                $thisState = AdvertState::Inactive;
+                break;
+            case ('moderation'):
+                $thisState = AdvertState::Moderation;
+                break;   
+        }
+        $adverts = $request->user()->adverts->where('state', '=', $thisState);
+        if ($adverts->isEmpty()) {
+            return response()->json([
+                'message' => 'Нет записей'
+            ]);
+        }
+
+        $adverts = $adverts->toQuery()->with('AdvertLegalInformation'/*, 'AdvertTechnicalInformation'*/)->paginate(10);
+
+        foreach ($adverts as $advert) {
+            $imagesUrls = [];
+            foreach (json_decode($advert->images) as $key=>$image) {
+                $imagesUrls[$key] = Files::getUrl($image);
+            }
+            $advert->images = $imagesUrls;
+        }
+        return $adverts;
     }
 
     /**
