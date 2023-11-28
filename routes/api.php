@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
     Route::resource('adverts', AdvertController::class);
-    Route::get('adverts_info', [AdvertController::class, 'getInfo']);
+    Route::get('advertsinfo', [AdvertController::class, 'getInfo']);
 
     Route::get('myadverts/{state}', [AdvertController::class, 'getMyAdverts']);
 
@@ -25,7 +25,9 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
 });
 
 Route::get('selector/vessel_types', function() {
-    return Consts::getVesselTypes();
+    return response()->json(['message' => [
+        'vessel_types' => Consts::getVesselTypes()
+    ]]);
 });
 
 Route::get('/files/{folder}/{filename}', function($folder, $filename){
