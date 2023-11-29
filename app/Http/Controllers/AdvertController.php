@@ -110,8 +110,10 @@ class AdvertController extends Controller
                 $thisState = AdvertState::Moderation;
                 break;   
         }
+        if ($thisState == null)
+            return response()->json([], 404);
         $adverts = $request->user()->adverts->where('state', '=', $thisState);
-        if ($adverts->isEmpty()) {
+        if ($adverts->isEmpty() || $adverts == null) {
             return response()->json([
                 'message' => 'Нет записей'
             ]);

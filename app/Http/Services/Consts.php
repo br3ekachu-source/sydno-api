@@ -63,5 +63,19 @@ class Consts
             3 => 'Маломерное несамоходное'
         ];
     }
+
+    public static function getExploitationType(){
+      return [
+          0 => 'Коммерческое',
+          1 => 'Некоммерческое'
+      ];
+    }
+
+    public static function getFlags(){
+      return [
+          'ru' => ['Россия', 'ru.svg'],
+          'us' => ['США', 'us.svg'],
+      ];
+    }
 }
 
