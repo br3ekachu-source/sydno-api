@@ -110,9 +110,7 @@ class AdvertController extends Controller
                 $thisState = AdvertState::Moderation;
                 break;   
         }
-        return response()->json([
-            'message' => $thisState
-        ]);
+
         if ($thisState == null)
             return response()->json([], 404);
         $adverts = $request->user()->adverts->where('state', '=', $thisState);
@@ -126,6 +124,9 @@ class AdvertController extends Controller
 
         foreach ($adverts as $advert) {
             $imagesUrls = [];
+            if ($advert->images == null){
+                continue;
+            }
             foreach (json_decode($advert->images) as $key=>$image) {
                 $imagesUrls[$key] = Files::getUrl($image);
             }
