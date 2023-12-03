@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Storage;
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
     Route::resource('adverts', AdvertController::class);
+    Route::post('adverts/{id}/edit', [AdvertController::class, 'update']);
+    Route::get('adverts/{id}/delete', [AdvertController::class, 'delete']);
+
     Route::get('advertsinfo', [AdvertController::class, 'getInfo']);
 
     Route::get('myadverts/{state}', [AdvertController::class, 'getMyAdverts']);

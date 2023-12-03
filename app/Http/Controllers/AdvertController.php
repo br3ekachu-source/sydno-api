@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdvertStoreRequest;
+use App\Http\Requests\AdvertUpdateRequest;
 use App\Http\Services\AdvertState;
 use App\Http\Services\Files;
 use App\Models\Advert;
@@ -14,26 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class AdvertController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return response()->json([
-            'email' => Auth::user()->email ,
-            'step' => 'first',
-            'phone' => Auth::user()->phone_number
-        ]);
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -120,7 +101,7 @@ class AdvertController extends Controller
             ]);
         }
 
-        $adverts = $adverts->toQuery()->with('AdvertLegalInformation'/*, 'AdvertTechnicalInformation'*/)->paginate(10);
+        $adverts = $adverts->toQuery()->with('AdvertLegalInformation'/*, 'AdvertTechnicalInformation'*/)->orderBy('created_at', 'desc')->paginate(10);
 
         foreach ($adverts as $advert) {
             $imagesUrls = [];
@@ -135,28 +116,63 @@ class AdvertController extends Controller
         return $adverts;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Advert $advert)
+
+    public function show($id)
     {
-        //
+        $advert = Advert::with('AdvertLegalInformation')->find($id);
+        return $advert;
+        if ($advert == null) {
+            return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
+        }
+        $imagesUrls = [];
+        if ($advert->images != null){
+            foreach (json_decode($advert->images) as $key=>$image) {
+                $imagesUrls[$key] = Files::getUrl($image);
+            }
+            $advert->images = $imagesUrls;
+        }
+        return $advert;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Advert $advert)
+    public function delete($id)
     {
-        //
+        $advert = Advert::find($id);
+        if ($advert == null) {
+            return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
+        }
+        if ($advert->state == AdvertState::Deleted) {
+            return response()->json(['message' => 'Объявление уже было удалено!'], 409);
+        }
+        $advert->state = AdvertState::Deleted;
+        if (!$advert->save()) {
+            return response()->json(['message' => 'Ошибка при сохранении'], 409);
+        }
+        return response()->json(['message' => 'Объявление удалено!'], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Advert $advert)
+    public function update(AdvertUpdateRequest $request, $id)
     {
-        //
+        $advert = Advert::find($id);
+        if ($advert == null) {
+            return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
+        }
+        $data = $request->all();
+
+        if(isset($request->images)) {
+            $images = $request->file('images');
+            $imagesArray = [];
+            foreach ($images as $key=>$image) {
+                $path = $image->store('advert_images');
+                $imagesArray[$key] = $path;
+            }
+            $data['images'] = json_encode($imagesArray);
+        }
+        $advert->forceFill($data);
+        $advert->save();
+        return response()->json(['message' => 'Объявление обновлено успешно!'], 200); 
     }
 
     /**
