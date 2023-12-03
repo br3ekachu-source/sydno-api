@@ -56,7 +56,7 @@ class AdvertController extends Controller
                 $images[$key] = Files::getUrl($image);
             }
         }
-        $response['pictures_urls'] = $images;
+        $response['images'] = $images;
         return response()->json($response);
     }
 
