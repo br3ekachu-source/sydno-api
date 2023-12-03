@@ -41,7 +41,7 @@ Route::get('selector/vesseltypes', function() {
 Route::get('/files/{folder}/{filename}', function($folder, $filename){
     $path = $folder.'/'.$filename;
     if (Storage::exists($path)){
-        return Storage::get($path);
+        return Storage::download($path);
     }
     return response()->json(['message' => 'Файл '.$filename.' не найден'], 404);
 });
