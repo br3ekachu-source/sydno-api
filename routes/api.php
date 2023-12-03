@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('myadverts/{state}', [AdvertController::class, 'getMyAdverts']);
 
     Route::resource('advertslegalinformation', AdvertLegalInformationController::class);
+    Route::post('advertslegalinformation/{id}/edit', [AdvertLegalInformationController::class, 'update']);
+
     Route::resource('advertstechnicalinformation', AdvertTechnicalInformationController::class);
     Route::post('/user/avatar', [UserAvatarController::class, 'update']);
     Route::get('/user/avatar', [UserAvatarController::class, 'get']);

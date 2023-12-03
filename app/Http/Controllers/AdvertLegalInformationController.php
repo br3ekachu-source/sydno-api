@@ -9,25 +9,6 @@ use Illuminate\Http\Request;
 
 class AdvertLegalInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */   
     public function store(AdvertLegalInformationStoreRequest $request)
     {
         $advert = $request->user()->adverts->find($request->post('advert_id'));
@@ -44,35 +25,15 @@ class AdvertLegalInformationController extends Controller
         return $advertLegalInformation;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(AdvertLegalInformation $advertLegalInformation)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(AdvertLegalInformation $advertLegalInformation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, AdvertLegalInformation $advertLegalInformation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(AdvertLegalInformation $advertLegalInformation)
-    {
-        //
+        $advertLegalInformation = AdvertLegalInformation::find($id);
+        if ($advertLegalInformation == null) {
+            return response()->json(['message' => 'Юридическая информация с указанным айди не найдена!'], 409);
+        }
+        $data = $request->all();
+        $advertLegalInformation->forceFill($data);
+        $advertLegalInformation->save();
+        return response()->json(['message' => 'Объявление обновлено успешно!'], 200); 
     }
 }
