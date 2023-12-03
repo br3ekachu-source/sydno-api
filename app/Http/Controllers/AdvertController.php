@@ -50,13 +50,13 @@ class AdvertController extends Controller
         $response['registration_number'] = $advert->registration_number;
         $response['phone_number'] = $advert->phone_number;
         $response['step'] = 'first';
-        $imagesUrls = [];
+        $images = [];
         if (isset($request->images)) {
             foreach (json_decode($advert->images) as $key=>$image) {
-                $imagesUrls[$key] = Files::getUrl($image);
+                $images[$key] = Files::getUrl($image);
             }
         }
-        $response['pictures_urls'] = $imagesUrls;
+        $response['pictures_urls'] = $images;
         return response()->json($response);
     }
 
@@ -104,14 +104,14 @@ class AdvertController extends Controller
         $adverts = $adverts->toQuery()->with('AdvertLegalInformation'/*, 'AdvertTechnicalInformation'*/)->orderBy('created_at', 'desc')->paginate(10);
 
         foreach ($adverts as $advert) {
-            $imagesUrls = [];
+            $images = [];
             if ($advert->images == null){
                 continue;
             }
             foreach (json_decode($advert->images) as $key=>$image) {
-                $imagesUrls[$key] = Files::getUrl($image);
+                $images[$key] = Files::getUrl($image);
             }
-            $advert->images = $imagesUrls;
+            $advert->images = $images;
         }
         return $adverts;
     }
@@ -124,12 +124,12 @@ class AdvertController extends Controller
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
         }
-        $imagesUrls = [];
+        $images = [];
         if ($advert->images != null){
             foreach (json_decode($advert->images) as $key=>$image) {
-                $imagesUrls[$key] = Files::getUrl($image);
+                $images[$key] = Files::getUrl($image);
             }
-            $advert->images = $imagesUrls;
+            $advert->images = $images;
         }
         return $advert;
     }
