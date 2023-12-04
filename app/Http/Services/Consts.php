@@ -77,5 +77,26 @@ class Consts
           'us' => ['США', 'us.svg'],
       ];
     }
+
+    public static function getClassFormulaLeftPart(){
+      return [
+          'fullsize' => [
+              0 => 'Л',
+              1 => 'Р',
+              2 => 'О',
+              3 => 'О-ПР',
+              4 => 'М-ПР',
+              5 => 'М-СП'
+          ],
+          'smallsize' => [
+              10 => 'Л мс',
+              11 => 'Р мс',
+              12 => 'О мс',
+              13 => 'О-ПР мс',
+              14 => 'М-ПР мс',
+              15 => 'М-СП мс'
+          ]
+      ];
+    }
 }
 

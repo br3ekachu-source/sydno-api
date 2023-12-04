@@ -22,6 +22,10 @@ class ConstController extends Controller
         {
             $consts['flags'] = Consts::getFlags();
         }
+        if ($request->has('classformulaleftpart'))
+        {
+            $consts['classformulaleftpart'] = Consts::getClassFormulaLeftPart();           
+        }
         
         return response()->json(['message' => $consts]);
     }
