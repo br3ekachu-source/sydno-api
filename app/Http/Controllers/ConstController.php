@@ -18,9 +18,9 @@ class ConstController extends Controller
         {
             $consts['exploitation_types'] = Consts::getExploitationType();
         }
-        if ($request->has('flags'))
+        if ($request->has('materials'))
         {
-            $consts['flags'] = Consts::getFlags();
+            $consts['materials'] = Consts::getMaterials();
         }
         if ($request->has('classformulaleftpart'))
         {
