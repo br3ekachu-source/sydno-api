@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignIdFor(Advert::class);
             $table->char('flag', 3); //флаг
             $table->smallInteger('exploitation_type'); //тип эксплуатации
-            $table->smallInteger('class_formula_left'); //левая чать формулы класса
-            $table->smallInteger('class_formula_right'); //правая часть формулы класса
+            $table->string('class_formula'); //формула класса
+            $table->float('wave_limit'); //ограничение по высоте волны
+            $table->boolean('ice_strengthening'); //ледовое усилениеы
             $table->smallInteger('type'); //тип судна
             $table->string('purpose'); //назначение судна
             $table->boolean('was_registered'); //находилось ли на учете

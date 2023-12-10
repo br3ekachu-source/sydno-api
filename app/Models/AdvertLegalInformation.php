@@ -14,8 +14,8 @@ class AdvertLegalInformation extends Model
         'advert_id',
         'flag',
         'exploitation_type',
-        'class_formula_left',
-        'class_formula_right',
+        'class_formula',
+        'wave_limit',
         'type',
         'purpose',
         'was_registered',
@@ -27,7 +27,8 @@ class AdvertLegalInformation extends Model
         'building_country',
         'port_address',
         'vessel_location',
-        'imo_number'
+        'imo_number',
+        'ice_strengthening'
     ];
 
     public function advert(): BelongsTo

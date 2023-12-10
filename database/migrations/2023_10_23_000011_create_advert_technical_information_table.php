@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('advert_techincal_information', function (Blueprint $table) {
+        Schema::create('advert_technical_information', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Advert::class);
             $table->float('overall_length'); //габаритная длина
@@ -39,7 +39,7 @@ return new class extends Migration
             $table->float('total_capacity_liquid_tanks'); //суммарная вместимость наливных танков
             $table->boolean('passangers_avialable'); //наличие пассажировместимости
             $table->integer('num_passangers'); //кол-во пассажиров
-            $table->boolean('technical_documentation'); //наличие пассажировместимости
+            $table->boolean('technical_documentation'); //наличие технической
             $table->timestamps();
         });
     }
