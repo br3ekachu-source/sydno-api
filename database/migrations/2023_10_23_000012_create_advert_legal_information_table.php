@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('advert_legal_information', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Advert::class);
-            $table->char('flag', 3); //флаг
+            $table->char('flag', 2); //флаг
             $table->smallInteger('exploitation_type'); //тип эксплуатации
             $table->string('class_formula'); //формула класса
             $table->float('wave_limit'); //ограничение по высоте волны
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('project_number'); //номер проекта
             $table->string('building_number'); //строительный номер
             $table->year('building_year'); //год постройки
-            $table->char('building_country', 3); //страна постройки
+            $table->char('building_country', 2); //страна постройки
             $table->json('port_address')->nullable(); //порт приписки
             $table->json('vessel_location')->nullable(); //местонахождение судна
             $table->string('imo_number')->nullable(); //номер imo
