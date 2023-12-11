@@ -35,4 +35,24 @@ class AdvertLegalInformation extends Model
     {
         return $this->belongsTo(Advert::class);
     }
+
+    public function getPortAddressAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function setPortAddressAttribute($value)
+    {
+        $this->attributes['port_address'] = json_encode($value);
+    }
+
+    public function getVesselLocationAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function setVesselLocationAttribute($value)
+    {
+        $this->attributes['vessel_location'] = json_encode($value);
+    }
 }

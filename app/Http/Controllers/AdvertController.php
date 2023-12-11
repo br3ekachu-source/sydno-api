@@ -101,7 +101,7 @@ class AdvertController extends Controller
             ]);
         }
 
-        $adverts = $adverts->toQuery()->with('AdvertLegalInformation'/*, 'AdvertTechnicalInformation'*/)->orderBy('created_at', 'desc')->paginate(10);
+        $adverts = $adverts->toQuery()->with('AdvertLegalInformation', 'AdvertTechnicalInformation')->orderBy('created_at', 'desc')->paginate(10);
 
         foreach ($adverts as $advert) {
             $images = [];
@@ -111,7 +111,7 @@ class AdvertController extends Controller
             foreach (json_decode($advert->images) as $key=>$image) {
                 $images[$key] = Files::getUrl($image);
             }
-            $advert->images = $images;
+            $advert->images = $images;              
         }
         return $adverts;
     }
