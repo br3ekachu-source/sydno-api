@@ -21,17 +21,22 @@ class AdvertLegalInformationController extends Controller
 
         $data = $request->all();
         $data['advert_id'] = $advert->id;
+        $data['port_address'] = json_encode($data['port_address']);
+        $data['vessel_location'] = json_encode($data['vessel_location']);
         $advertLegalInformation = AdvertLegalInformation::create($data);
         return $advertLegalInformation;
     }
 
     public function update(Request $request, $id)
     {
+        //return json_encode($request->post());
         $advertLegalInformation = AdvertLegalInformation::find($id);
         if ($advertLegalInformation == null) {
             return response()->json(['message' => 'Юридическая информация с указанным айди не найдена!'], 409);
         }
         $data = $request->all();
+        $data['port_address'] = json_encode($data['port_address']);
+        $data['vessel_location'] = json_encode($data['vessel_location']);
         $advertLegalInformation->forceFill($data);
         $advertLegalInformation->save();
         return response()->json(['message' => 'Объявление обновлено успешно!'], 200); 
