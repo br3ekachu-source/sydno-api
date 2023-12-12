@@ -28,7 +28,6 @@ class AdvertLegalInformationController extends Controller
 
     public function update(Request $request, $id)
     {
-        //return json_encode($request->post());
         $advertLegalInformation = AdvertLegalInformation::find($id);
         if ($advertLegalInformation == null) {
             return response()->json(['message' => 'Юридическая информация с указанным айди не найдена!'], 409);

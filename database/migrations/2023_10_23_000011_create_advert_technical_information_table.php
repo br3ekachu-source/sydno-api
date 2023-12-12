@@ -29,16 +29,16 @@ return new class extends Migration
             $table->float('max_speed_in_ballast'); //максимальная скорость в балласте
             $table->float('maximum_speed_when_loaded'); //максимальная скорость в грузу
             $table->boolean('cargo_tanks'); //наличие грузовых танков
-            $table->float('total_capacity_cargo_tanks'); //суммарная вместимость грузовых танков
+            $table->float('total_capacity_cargo_tanks')->nullable(); //суммарная вместимость грузовых танков
             $table->boolean('second_bottom'); //второе дно
             $table->boolean('second_sides'); //вторые борта
             $table->float('carrying'); //грузоподъемность
             $table->boolean('superstructures'); //наличие надстроек
             $table->boolean('deckhouses'); //наличие рубок
             $table->boolean('liquid_tanks'); //наличие наливных танков
-            $table->float('total_capacity_liquid_tanks'); //суммарная вместимость наливных танков
+            $table->float('total_capacity_liquid_tanks')->nullable(); //суммарная вместимость наливных танков
             $table->boolean('passangers_avialable'); //наличие пассажировместимости
-            $table->integer('num_passangers'); //кол-во пассажиров
+            $table->integer('num_passangers')->nullable(); //кол-во пассажиров
             $table->boolean('technical_documentation'); //наличие технической
             $table->timestamps();
         });
