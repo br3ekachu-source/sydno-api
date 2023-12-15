@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('fracht_adverts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class); //пользователь
+            //$table->foreignIdFor(User::class); //пользователь
             $table->string('registration_number');
             $table->integer('price'); //цена
-            $table->foreignIdFor(Address::class)->nullable(); //адрес
+            //$table->foreignIdFor(Address::class)->nullable(); //адрес
             $table->smallInteger('state'); //статус объявления
             $table->json('images')->nullable(); //фотографии
             $table->string('header'); //заголовок
