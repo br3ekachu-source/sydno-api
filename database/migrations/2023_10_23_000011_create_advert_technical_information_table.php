@@ -26,7 +26,7 @@ return new class extends Migration
             $table->float('gross_tonnage'); //валовая вместимость
             $table->smallInteger('num_engines'); //кол-во двигателей
             $table->float('power'); //мощность двигателей
-            $table->float('max_speed_in_ballast'); //максимальная скорость в балласте
+            $table->float('maximum_speed_in_ballast'); //максимальная скорость в балласте
             $table->float('maximum_speed_when_loaded'); //максимальная скорость в грузу
             $table->boolean('cargo_tanks'); //наличие грузовых танков
             $table->float('total_capacity_cargo_tanks')->nullable(); //суммарная вместимость грузовых танков

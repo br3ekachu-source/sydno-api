@@ -19,7 +19,7 @@ return new class extends Migration
             $table->smallInteger('exploitation_type'); //тип эксплуатации
             $table->string('class_formula'); //формула класса
             $table->float('wave_limit'); //ограничение по высоте волны
-            $table->boolean('ice_strengthening'); //ледовое усилениеы
+            $table->boolean('ice_strengthening'); //ледовое усиление
             $table->smallInteger('type'); //тип судна
             $table->string('purpose'); //назначение судна
             $table->boolean('was_registered'); //находилось ли на учете
