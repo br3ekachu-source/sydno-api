@@ -55,6 +55,13 @@ enum ExploitationType:int {
 
 class Consts
 {
+    public static function getVesselStatuses(){
+        return [
+            0 => 'На холодном отстое',
+            1 => 'Действующие документы',
+            2 => 'Без документов'
+        ];
+    }
 
     public static function getCoinTypes(){
         return [

@@ -22,6 +22,9 @@ class ConstController extends Controller
         if ($request->has('cointypes')){
             $consts['coin_types'] = Consts::getCoinTypes();
         }
+        if ($request->has('vesselstatuses')){
+            $consts['vessel_statuses'] = Consts::getVesselStatuses();
+        }
         if ($request->has('frachtpricetypes')){
             $consts['fracht_price_types'] = Consts::getFrachtPriceTypes();
         }
