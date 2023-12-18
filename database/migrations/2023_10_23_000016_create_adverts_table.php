@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('header'); //заголовок
             $table->text('description'); //описание
             $table->string('phone_number');
-            $table->smallInteger('coin_type'); //валюта
+            //$table->smallInteger('coin_type'); //валюта
             $table->timestamps(); //дата создания объявления
         });
     }
