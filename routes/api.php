@@ -32,10 +32,10 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('frachtadverts/{id}/delete', [FrachtAdvertController::class, 'delete']);
     Route::get('frachtadvertsinfo', [FrachtAdvertController::class, 'getInfo']);
     Route::get('frachtmyadverts/{state}', [FrachtAdvertController::class, 'getMyAdverts']);
-    Route::resource('frachtadvertslegalinformation', FrachtAdvertLegalInformationController::class);
-    Route::post('frachtadvertslegalinformation/{id}/edit', [FrachtAdvertLegalInformationController::class, 'update']);
-    Route::resource('frachtadvertstechnicalinformation', FrachtAdvertTechnicalInformationController::class);
-    Route::post('frachtadvertstechnicalinformation/{id}/edit', [FrachtAdvertTechnicalInformationController::class, 'update']);
+    Route::resource('crachtlegalinfo', FrachtAdvertLegalInformationController::class);
+    Route::post('frachtlegalinfo/{id}/edit', [FrachtAdvertLegalInformationController::class, 'update']);
+    Route::resource('frachttechinfo', FrachtAdvertTechnicalInformationController::class);
+    Route::post('frachttechinfo/{id}/edit', [FrachtAdvertTechnicalInformationController::class, 'update']);
 
     Route::post('/user/avatar', [UserAvatarController::class, 'update']);
     Route::get('/user/avatar', [UserAvatarController::class, 'get']);
