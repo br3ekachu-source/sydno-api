@@ -23,7 +23,7 @@ class AdvertTechnicalInformation extends Model
         'gross_tonnage',
         'num_engines',
         'power',
-        'max_speed_in_ballast',
+        'maximum_speed_in_ballast',
         'maximum_speed_when_loaded',
         'cargo_tanks',
         'total_capacity_cargo_tanks',
