@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdvertStoreRequest;
 use App\Http\Requests\AdvertUpdateRequest;
 use App\Http\Services\AdvertState;
-use App\Http\Services\Files;
 use App\Models\Advert;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 
 class AdvertController extends Controller
@@ -20,44 +17,13 @@ class AdvertController extends Controller
      */
     public function store(AdvertStoreRequest $request)
     {
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
+        $data['state'] = AdvertState::Draft;
         $advert = new Advert();
-        $advert->header = $request->post('header');
-        $advert->user_id = Auth::user()->id;
-        $advert->price = $request->post('price');
-        $advert->description = $request->post('description');
-        $advert->registration_number = $request->post('registration_number');
-        $advert->phone_number = $request->post('phone_number');
-        $advert->state = AdvertState::Draft;
-
-        if(isset($request->images)) {
-            $images = $request->file('images');
-            $imagesArray = [];
-            foreach ($images as $key=>$image) {
-                $path = $image->store('advert_images');
-                $imagesArray[$key] = $path;
-            }
-            $advert->images = json_encode($imagesArray);
-        }
-
+        $advert->forceFill($data);
         $advert->save();
-
-        $response = [];
-        $response['id'] = $advert->id;
-        $response['header'] = $advert->header;
-        $response['price'] = $advert->price;
-        $response['user'] = $advert->user_id;
-        $response['description'] = $advert->description;
-        $response['registration_number'] = $advert->registration_number;
-        $response['phone_number'] = $advert->phone_number;
-        $response['step'] = 'first';
-        $images = [];
-        if (isset($request->images)) {
-            foreach (json_decode($advert->images) as $key=>$image) {
-                $images[$key] = Files::getUrl($image);
-            }
-        }
-        $response['images'] = $images;
-        return response()->json($response);
+        return $advert;
     }
 
     public function getInfo(Request $request)
@@ -94,25 +60,11 @@ class AdvertController extends Controller
 
         if ($thisState == null)
             return response()->json([], 404);
-        $adverts = $request->user()->adverts->where('state', '=', $thisState);
-        if ($adverts->isEmpty() || $adverts == null) {
-            return response()->json([
-                'message' => 'Нет записей'
-            ]);
-        }
 
-        $adverts = $adverts->toQuery()->with('AdvertLegalInformation', 'AdvertTechnicalInformation')->orderBy('created_at', 'desc')->paginate(10);
-
-        foreach ($adverts as $advert) {
-            $images = [];
-            if ($advert->images == null){
-                continue;
-            }
-            foreach (json_decode($advert->images) as $key=>$image) {
-                $images[$key] = Files::getUrl($image);
-            }
-            $advert->images = $images;              
-        }
+        $adverts = Advert::where('state', '=', $thisState)
+            ->where('user_id', '=', $request->user()->id)
+            ->with('AdvertLegalInformation', 'AdvertTechnicalInformation')
+            ->orderBy('created_at', 'desc')->paginate(10);
         return $adverts;
     }
 
@@ -182,16 +134,6 @@ class AdvertController extends Controller
 
         $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation')->orderBy('created_at', 'desc')->paginate(10);
 
-        foreach ($adverts as $advert) {
-            $images = [];
-            if ($advert->images == null){
-                continue;
-            }
-            foreach (json_decode($advert->images) as $key=>$image) {
-                $images[$key] = Files::getUrl($image);
-            }
-            $advert->images = $images;              
-        }
         return $adverts;
     }
 
@@ -202,13 +144,6 @@ class AdvertController extends Controller
         return $advert;
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
-        }
-        $images = [];
-        if ($advert->images != null){
-            foreach (json_decode($advert->images) as $key=>$image) {
-                $images[$key] = Files::getUrl($image);
-            }
-            $advert->images = $images;
         }
         return $advert;
     }
@@ -239,16 +174,6 @@ class AdvertController extends Controller
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
         }
         $data = $request->all();
-
-        if(isset($request->images)) {
-            $images = $request->file('images');
-            $imagesArray = [];
-            foreach ($images as $key=>$image) {
-                $path = $image->store('advert_images');
-                $imagesArray[$key] = $path;
-            }
-            $data['images'] = json_encode($imagesArray);
-        }
         $advert->forceFill($data);
         $advert->save();
         return response()->json(['message' => 'Объявление обновлено успешно!'], 200); 

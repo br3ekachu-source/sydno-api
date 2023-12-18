@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -13,15 +14,17 @@ return new class extends Migration
     {
         Schema::create('fracht_adverts', function (Blueprint $table) {
             $table->id();
-            //$table->foreignIdFor(User::class); //пользователь
+            $table->foreignIdFor(User::class); //пользователь
             $table->string('registration_number');
-            $table->integer('price'); //цена
-            //$table->foreignIdFor(Address::class)->nullable(); //адрес
             $table->smallInteger('state'); //статус объявления
             $table->json('images')->nullable(); //фотографии
             $table->string('header'); //заголовок
             $table->text('description'); //описание
             $table->string('phone_number');
+            $table->smallInteger('fracht_type'); //тип аренды
+            $table->smallInteger('fracht_price_type'); //тип промежутка цены аренды
+            $table->float('fracht_price'); //цена аренды
+            $table->smallInteger('coin_type'); //валюта
             $table->timestamps(); //дата создания объявления
         });
     }

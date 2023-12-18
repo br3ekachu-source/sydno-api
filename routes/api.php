@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdvertController;
 use App\Http\Controllers\AdvertLegalInformationController;
 use App\Http\Controllers\AdvertTechnicalInformationController;
+use App\Http\Controllers\FrachtAdvertController;
+use App\Http\Controllers\FrachtAdvertLegalInformationController;
+use App\Http\Controllers\FrachtAdvertTechnicalInformationController;
 use App\Http\Controllers\ConstController;
 use App\Http\Controllers\UserAvatarController;
 use App\Http\Controllers\UserController;
@@ -13,19 +16,26 @@ use Illuminate\Support\Facades\Storage;
 
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
+
     Route::resource('adverts', AdvertController::class);
     Route::post('adverts/{id}/edit', [AdvertController::class, 'update']);
     Route::get('adverts/{id}/delete', [AdvertController::class, 'delete']);
-
     Route::get('advertsinfo', [AdvertController::class, 'getInfo']);
-
     Route::get('myadverts/{state}', [AdvertController::class, 'getMyAdverts']);
-
     Route::resource('advertslegalinformation', AdvertLegalInformationController::class);
     Route::post('advertslegalinformation/{id}/edit', [AdvertLegalInformationController::class, 'update']);
-
     Route::resource('advertstechnicalinformation', AdvertTechnicalInformationController::class);
     Route::post('advertstechnicalinformation/{id}/edit', [AdvertTechnicalInformationController::class, 'update']);
+
+    Route::resource('frachtadverts', FrachtAdvertController::class);
+    Route::post('frachtadverts/{id}/edit', [FrachtAdvertController::class, 'update']);
+    Route::get('frachtadverts/{id}/delete', [FrachtAdvertController::class, 'delete']);
+    Route::get('frachtadvertsinfo', [FrachtAdvertController::class, 'getInfo']);
+    Route::get('frachtmyadverts/{state}', [FrachtAdvertController::class, 'getMyAdverts']);
+    Route::resource('frachtadvertslegalinformation', FrachtAdvertLegalInformationController::class);
+    Route::post('frachtadvertslegalinformation/{id}/edit', [FrachtAdvertLegalInformationController::class, 'update']);
+    Route::resource('frachtadvertstechnicalinformation', FrachtAdvertTechnicalInformationController::class);
+    Route::post('frachtadvertstechnicalinformation/{id}/edit', [FrachtAdvertTechnicalInformationController::class, 'update']);
 
     Route::post('/user/avatar', [UserAvatarController::class, 'update']);
     Route::get('/user/avatar', [UserAvatarController::class, 'get']);
@@ -33,6 +43,8 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
 });
 
 Route::get('/alladverts', [AdvertController::class, 'getAdverts']);
+
+Route::get('/allfrachts', [FrachtAdvertController::class, 'getAdverts']);
 
 Route::get('selector', [ConstController::class, 'getSelectors']);
 

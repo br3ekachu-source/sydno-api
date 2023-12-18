@@ -55,11 +55,28 @@ enum ExploitationType:int {
 
 class Consts
 {
+
+    public static function getCoinTypes(){
+        return [
+            0 => 'RUB',
+            1 => 'EUR',
+            2 => 'USD'
+        ];
+    }
+    
+    public static function getFrachtPriceTypes(){
+        return [
+            0 => 'Year',
+            1 => 'Month',
+            2 => 'Day'
+        ];
+    }
+
     public static function getVesselTypes(){
         return [
-            '3' => 'Полноразмерное самоходное',
-            '2' => 'Полноразмерное несамоходное',
-            '1' => 'Маломерное самоходное',
+            3 => 'Полноразмерное самоходное',
+            2 => 'Полноразмерное несамоходное',
+            1 => 'Маломерное самоходное',
             0 => 'Маломерное несамоходное'
         ];
     }
@@ -77,33 +94,6 @@ class Consts
             2 => 'Композит',
             1 => 'Дерево',
             0 => 'Стеклопластик'
-        ];
-    }
-
-    public static function getClassFormulaLeftPart(){
-        return [
-            'fullsize' => [
-                5 => 'Л',
-                4 => 'Р',
-                3 => 'О',
-                2 => 'О-ПР',
-                1 => 'М-ПР',
-                0 => 'М-СП'
-            ],
-            'smallsize' => [
-                10 => 'Л мс',
-                11 => 'Р мс',
-                12 => 'О мс',
-                13 => 'О-ПР мс',
-                14 => 'М-ПР мс',
-                15 => 'М-СП мс',
-                16 => 'I',
-                17 => 'II',
-                18 => 'III',
-                19 => 'IV',
-                20 => 'V',
-                21 => 'VI'
-            ]
         ];
     }
 }
