@@ -81,6 +81,7 @@ class AdvertController extends Controller
             $request->get('register_valid_until')    == null ?: $query->where('register_valid_until', '>=', $request->get('register_valid_until'));
             $request->get('vessel_status')           == null ?: $query->where('vessel_status', '=', $request->get('vessel_status'));
             $request->get('project_number')          == null ?: $query->where('project_number', '=', $request->get('project_number'));
+            $request->get('exploitation_type')       == null ?: $query->where('exploitation_type', '=', $request->get('exploitation_type'));
             $request->get('building_number')         == null ?: $query->where('building_number', 'ilike', '%'.$request->get('building_number').'%');
             $request->get('building_year')           == null ?: $query->where('building_year', '=', $request->get('building_year'));
             $request->get('building_country')        == null ?: $query->where('building_country', '=', $request->get('building_country'));
