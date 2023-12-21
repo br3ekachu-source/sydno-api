@@ -25,6 +25,7 @@ return new class extends Migration
             $table->float('full_displacement'); //водоизмещение полное
             $table->float('gross_tonnage'); //валовая вместимость
             $table->smallInteger('num_engines'); //кол-во двигателей
+            $table->smallInteger('num_additional_engines'); //кол-во вспомогательных двигателей
             $table->float('power'); //мощность двигателей
             $table->float('maximum_speed_in_ballast'); //максимальная скорость в балласте
             $table->float('maximum_speed_when_loaded'); //максимальная скорость в грузу
@@ -34,7 +35,6 @@ return new class extends Migration
             $table->boolean('second_sides'); //вторые борта
             $table->float('carrying'); //грузоподъемность
             $table->boolean('superstructures'); //наличие надстроек
-            $table->boolean('deckhouses'); //наличие рубок
             $table->boolean('liquid_tanks'); //наличие наливных танков
             $table->float('total_capacity_liquid_tanks')->nullable(); //суммарная вместимость наливных танков
             $table->boolean('passangers_avialable'); //наличие пассажировместимости
