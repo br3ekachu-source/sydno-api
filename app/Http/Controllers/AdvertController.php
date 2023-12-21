@@ -128,7 +128,6 @@ class AdvertController extends Controller
             $request->get('min_carrying')           == null ?: $query->where('carrying', '>=', $request->get('min_carrying'));
             $request->get('max_carrying')           == null ?: $query->where('carrying', '<=', $request->get('max_carrying'));
             $request->get('superstructures')        == null ?: $query->where('superstructures', '=', $request->get('superstructures'));
-            $request->get('deckhouses')             == null ?: $query->where('deckhouses', '=', $request->get('deckhouses'));
             $request->get('min_passangers_avialable') == null ?: $query->where('num_passangers', '>=', $request->get('min_passangers_avialable'));
             $request->get('max_passangers_avialable') == null ?: $query->where('num_passangers', '<=', $request->get('max_passangers_avialable'));
         });

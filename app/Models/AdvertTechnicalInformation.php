@@ -22,6 +22,7 @@ class AdvertTechnicalInformation extends Model
         'full_displacement',
         'gross_tonnage',
         'num_engines',
+        'num_additional_engines',
         'power',
         'maximum_speed_in_ballast',
         'maximum_speed_when_loaded',
