@@ -19,7 +19,7 @@ class FrachtAdvertLegalInformationController extends Controller
         }
 
         $data = $request->all();
-        !isset($data['was_registered']) ?: $data['was_registered'] = true;
+        isset($data['was_registered']) ?: $data['was_registered'] = true;
         $data['advert_id'] = $frachtAdvert->id;
         $frachtAdvertLegalInformation = FrachtAdvertLegalInformation::create($data);
 

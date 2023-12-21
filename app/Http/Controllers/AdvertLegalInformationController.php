@@ -20,7 +20,7 @@ class AdvertLegalInformationController extends Controller
         }
 
         $data = $request->all();
-        !isset($data['was_registered']) ?: $data['was_registered'] = true;
+        isset($data['was_registered']) ?: $data['was_registered'] = true;
         $data['advert_id'] = $advert->id;
         $advertLegalInformation = AdvertLegalInformation::create($data);
 
