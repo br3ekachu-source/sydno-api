@@ -122,7 +122,7 @@ class AdvertController extends Controller
             $request->get('filling_tanks')          == null ?: $query->where('liquid_tanks', '=', $request->get('filling_tanks'));
             $request->get('min_total_capacity_filling_tanks')  == null ?: $query->where('total_capacity_liquid_tanks', '>=', $request->get('min_total_capacity_filling_tanks'));
             $request->get('max_total_capacity_filling_tanks')  == null ?: $query->where('total_capacity_liquid_tanks', '<=', $request->get('max_total_capacity_filling_tanks'));
-            $request->get('seccond_bottom')         == null ?: $query->where('seccond_bottom', '=', $request->get('seccond_bottom'));
+            $request->get('second_bottom')         == null ?: $query->where('second_bottom', '=', $request->get('second_bottom'));
             $request->get('second_sides')           == null ?: $query->where('second_sides', '=', $request->get('second_sides'));
             $request->get('min_carrying')           == null ?: $query->where('carrying', '>=', $request->get('min_carrying'));
             $request->get('max_carrying')           == null ?: $query->where('carrying', '<=', $request->get('max_carrying'));
