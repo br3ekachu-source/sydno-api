@@ -21,8 +21,7 @@ return new class extends Migration
             $table->json('images')->nullable(); //фотографии
             $table->string('header'); //заголовок
             $table->text('description'); //описание
-            $table->string('phone_number');
-            //$table->smallInteger('coin_type'); //валюта
+            $table->string('phone_number'); 
             $table->timestamps(); //дата создания объявления
         });
     }

@@ -14,6 +14,8 @@ use App\Http\Services\Consts;
 use App\Models\Advert;
 use Illuminate\Support\Facades\Storage;
 
+Route::get('adverts/{id}', [AdvertController::class, 'show']);
+
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
 
@@ -41,6 +43,8 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user/avatar', [UserAvatarController::class, 'get']);
     Route::delete('/user/avatar', [UserAvatarController::class, 'delete']);
 });
+
+
 
 Route::get('/alladverts', [AdvertController::class, 'getAdverts']);
 

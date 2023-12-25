@@ -23,7 +23,7 @@ return new class extends Migration
             $table->smallInteger('type'); //тип судна
             $table->string('purpose'); //назначение судна
             $table->boolean('was_registered'); //находилось ли на учете
-            $table->date('register_valid_until'); //учед действует до
+            $table->date('register_valid_until')->nullable(); //учед действует до
             $table->smallInteger('vessel_status'); //статус судна
             $table->string('project_number'); //номер проекта
             $table->string('building_number'); //строительный номер

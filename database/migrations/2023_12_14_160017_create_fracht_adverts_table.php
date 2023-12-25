@@ -24,7 +24,6 @@ return new class extends Migration
             $table->smallInteger('fracht_type'); //тип аренды
             $table->smallInteger('fracht_price_type'); //тип промежутка цены аренды
             $table->float('fracht_price'); //цена аренды
-            //$table->smallInteger('coin_type'); //валюта
             $table->timestamps(); //дата создания объявления
         });
     }

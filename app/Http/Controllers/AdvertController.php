@@ -140,7 +140,7 @@ class AdvertController extends Controller
 
     public function show($id)
     {
-        $advert = Advert::with('AdvertLegalInformation')->find($id);
+        $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation')->find($id);
         return $advert;
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
