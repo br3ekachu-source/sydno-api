@@ -132,7 +132,7 @@ class AdvertController extends Controller
             $request->get('max_passangers_avialable') == null ?: $query->where('num_passangers', '<=', $request->get('max_passangers_avialable'));
         });
 
-        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation')->orderBy('created_at', 'desc')->paginate(10);
+        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name')->orderBy('created_at', 'desc')->paginate(10);
 
         return $adverts;
     }
