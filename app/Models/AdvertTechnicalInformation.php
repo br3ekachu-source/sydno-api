@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Http\Services\Consts;
 
 class AdvertTechnicalInformation extends Model
 {
@@ -43,5 +44,10 @@ class AdvertTechnicalInformation extends Model
     public function advert(): BelongsTo
     {
         return $this->belongsTo(Advert::class);
+    }
+
+    public function getMaterialAttribute($value)
+    {
+        return Consts::getMaterials()[$value];
     }
 }

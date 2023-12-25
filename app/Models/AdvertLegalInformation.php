@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Services\Consts;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -54,5 +55,20 @@ class AdvertLegalInformation extends Model
     public function setVesselLocationAttribute($value)
     {
         $this->attributes['vessel_location'] = json_encode($value);
+    }
+
+    public function getVesselStatusAttribute($value)
+    {
+        return Consts::getVesselStatuses()[$value];
+    }
+
+    public function getTypeAttribute($value)
+    {
+        return Consts::getVesselTypes()[$value];
+    }
+
+    public function getExploitationTypeAttribute($value)
+    {
+        return Consts::getExploitationType()[$value];
     }
 }

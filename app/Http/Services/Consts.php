@@ -62,14 +62,6 @@ class Consts
             2 => 'Без документов'
         ];
     }
-
-    public static function getCoinTypes(){
-        return [
-            0 => 'RUB',
-            1 => 'EUR',
-            2 => 'USD'
-        ];
-    }
     
     public static function getFrachtPriceTypes(){
         return [
