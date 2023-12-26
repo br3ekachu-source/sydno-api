@@ -17,12 +17,6 @@ class Advert extends Model
         'state' => AdvertState::class,
     ];
 
-    public function getCoinTypeAttribute($value)
-    {
-        $types = Consts::getCoinTypes();
-        return isset($types[$value]) ? $types[$value] : $types[0];
-    }
-
     public function getImagesAttribute($value)
     {
         $images = [];

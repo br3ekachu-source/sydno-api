@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'phone_number'
+        'phone_number',
     ];
 
     /**
@@ -51,7 +51,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Advert::class);
     }
 
-    public function frachtADverts(): HasMany
+    public function favorites()
+    {
+        return $this->belongsToMany(Advert::class, 'favorites', 'user_id', 'advert_id')->withTimeStamps();
+    }
+
+    public function frachtAdverts(): HasMany
     {
         return $this->hasMany(FrachtAdvert::class);
     }

@@ -9,6 +9,7 @@ use App\Models\Advert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\User;
 
 class AdvertController extends Controller
 {
@@ -167,8 +168,7 @@ class AdvertController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdvertUpdateRequest $request, $id)
-    {
+    public function update(AdvertUpdateRequest $request, $id) {
         $advert = Advert::find($id);
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
@@ -179,11 +179,25 @@ class AdvertController extends Controller
         return response()->json(['message' => 'Объявление обновлено успешно!'], 200); 
     }
 
+    public function setInFavorite(Request $request, $id) {
+        $advert = Advert::find($id);
+        if ($advert == null) {
+            return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
+        }
+        $result = true;
+        if ($request->user()->favorites()->where('advert_id', $id)->exists()) {
+            $request->user()->favorites()->detach($id);
+            $result = false;
+        } else {
+            $request->user()->favorites()->attach($id);
+        }
+        return response()->json(['in_favorite' => $result], 200); 
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Advert $advert)
-    {
+    public function destroy(Advert $advert) {
         //
     }
 }
