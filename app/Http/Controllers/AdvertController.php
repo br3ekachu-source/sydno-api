@@ -142,10 +142,10 @@ class AdvertController extends Controller
     public function show($id)
     {
         $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name')->find($id);
-        return $advert;
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
         }
+        $advert->increment('views'); 
         return $advert;
     }
 
@@ -184,14 +184,28 @@ class AdvertController extends Controller
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
         }
-        $result = true;
+        if (!$request->user()->favorites()->where('advert_id', $id)->exists()) {
+            $request->user()->favorites()->attach($id);
+        } 
+        return response()->json(['in_favorite' => true], 200); 
+    }
+
+    public function unsetInFavorite(Request $request, $id) {
+        $advert = Advert::find($id);
+        if ($advert == null) {
+            return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
+        }
         if ($request->user()->favorites()->where('advert_id', $id)->exists()) {
             $request->user()->favorites()->detach($id);
-            $result = false;
-        } else {
-            $request->user()->favorites()->attach($id);
         }
-        return response()->json(['in_favorite' => $result], 200); 
+        return response()->json(['in_favorite' => false], 200); 
+    }
+
+    public function getFavorites(Request $request) {
+        return Advert::whereHas('favoritesUsers', function ($query) use ($request) {
+            $query->where('favorites.user_id', '=', $request->user()->id);
+        })
+        ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name')->get();
     }
 
     /**

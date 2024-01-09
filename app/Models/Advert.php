@@ -45,6 +45,11 @@ class Advert extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function favoritesUsers()
+    {
+        return $this->belongsToMany(Advert::class, 'favorites', 'advert_id', 'user_id')->withTimeStamps();
+    }
+
     public function advertLegalInformation(): HasOne
     {
         return $this->hasOne(AdvertLegalInformation::class);

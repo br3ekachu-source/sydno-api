@@ -14,15 +14,19 @@ use App\Http\Services\Consts;
 use App\Models\Advert;
 use Illuminate\Support\Facades\Storage;
 
+Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
+    Route::get('adverts/favorites', [AdvertController::class, 'getFavorites']);
+});
+
 Route::get('adverts/{id}', [AdvertController::class, 'show']);
 
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
-
     Route::resource('adverts', AdvertController::class);
     Route::post('adverts/{id}/edit', [AdvertController::class, 'update']);
     Route::get('adverts/{id}/delete', [AdvertController::class, 'delete']);
     Route::get('adverts/{id}/favorite', [AdvertController::class, 'setInFavorite']);
+    Route::get('adverts/{id}/unfavorite', [AdvertController::class, 'unsetInFavorite']);
     Route::get('advertsinfo', [AdvertController::class, 'getInfo']);
     Route::get('myadverts/{state}', [AdvertController::class, 'getMyAdverts']);
     Route::resource('advertslegalinformation', AdvertLegalInformationController::class);

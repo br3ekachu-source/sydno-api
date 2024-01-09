@@ -21,7 +21,8 @@ return new class extends Migration
             $table->json('images')->nullable(); //фотографии
             $table->string('header'); //заголовок
             $table->text('description'); //описание
-            $table->string('phone_number'); 
+            $table->string('phone_number'); //номер телефона
+            $table->integer('views')->default(0); //просмотры
             $table->timestamps(); //дата создания объявления
         });
     }
