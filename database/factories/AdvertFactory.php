@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Http\Services\AdvertState;
+use App\Http\Services\Consts;
 use App\Models\Advert;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -10,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AdvertFactory extends Factory
 {
-    protected $model = Advert::class;
     /**
      * Define the model's default state.
      *
@@ -19,7 +20,14 @@ class AdvertFactory extends Factory
     public function definition(): array
     {
         return [
-            'registration_number'
+            'user_id' => fake()->numberBetween(0, 10),
+            'registration_number' => fake()->swiftBicNumber(),
+            'price' => fake()->numberBetween(1000000, 999999999),
+            'state' => AdvertState::Active,
+            'header' => fake()->sentence(3, true),
+            'description' => fake()->text(),
+            'phone_number' => fake()->phoneNumber(),
+            'views' => fake()->numberBetween(0, 5000)
         ];
     }
 }
