@@ -6,6 +6,7 @@ use App\Http\Requests\AdvertStoreRequest;
 use App\Http\Requests\AdvertUpdateRequest;
 use App\Http\Services\AdvertState;
 use App\Models\Advert;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
@@ -133,7 +134,20 @@ class AdvertController extends Controller
             $request->get('max_passangers_avialable') == null ?: $query->where('num_passangers', '<=', $request->get('max_passangers_avialable'));
         });
 
-        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name')->orderBy('created_at', 'desc')->paginate(10);
+        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->orderBy('created_at', 'desc')->paginate(10);
+
+        if ($request->user() != null){
+            $myFavorites = $request->user()->favorites();
+            foreach ($adverts as $advert) {
+                $advert['in_favorites'] = $myFavorites->where('advert_id', '=', $advert->id)->exists() ? true : false;
+            }
+        }
+        else {
+            foreach ($adverts as $advert) {
+                $advert['in_favorites'] = false;
+            }
+        }
+
 
         return $adverts;
     }
