@@ -153,11 +153,16 @@ class AdvertController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name')->find($id);
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
+        }
+        if ($request->user() != null) {
+            $advert['in_favorites'] = $request->user()->favorites()->where('advert_id', $advert->id)->exists() ? true : false;
+        } else {
+            $advert['in_favorites'] = false;
         }
         $advert->increment('views');
         return $advert;
