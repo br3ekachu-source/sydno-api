@@ -22,7 +22,7 @@ class AdvertTechnicalInformationFactory extends Factory
         $liquidTanks = fake()->boolean();
         $passangersAvialable = fake()->boolean();
         return [
-            'advert_id' => $this->faker->unique()->randomElement($ids),
+            'advert_id' => fake()->unique()->randomElement($ids),
             'overall_length' => fake()->randomFloat(1, 2, 50),
             'overall_width' => fake()->randomFloat(1, 2, 30),
             'board_height' => fake()->randomFloat(1, 0.5, 20),

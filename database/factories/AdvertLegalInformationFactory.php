@@ -25,7 +25,7 @@ class AdvertLegalInformationFactory extends Factory
 
         return [
             'advert_id' => $this->faker->unique()->randomElement($ids),
-            'flag' => fake()->countryCode(),
+            'flag' => strtolower(fake()->countryCode()),
             'exploitation_type' => fake()->numberBetween(0, 1),
             'class_formula' => fake()->swiftBicNumber(),
             'wave_limit' => fake()->randomFloat(1, 0, 3.5),
@@ -37,9 +37,9 @@ class AdvertLegalInformationFactory extends Factory
             'vessel_status' => fake()->numberBetween(0, 2),
             'project_number' => fake()->swiftBicNumber(),
             'building_number' => fake()->swiftBicNumber(),
-            'building_year' => fake()->year(2024),
+            'building_year' => fake()->year(),
             'building_country' => fake()->countryCode(),
-            'port_address' => fake()->address(),
+            'port_address' => strtolower(fake()->address()),
             'vessel_location' => fake()->city(),
             'imo_number' => fake()->swiftBicNumber()
         ];
