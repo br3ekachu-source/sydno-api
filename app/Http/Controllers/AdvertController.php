@@ -70,6 +70,15 @@ class AdvertController extends Controller
         return $adverts;
     }
 
+    public function getUserAdverts($user_id)
+    {
+        $adverts = Advert::where('state', '=', AdvertState::Active)
+            ->where('user_id', '=', $user_id)
+            ->with('AdvertLegalInformation', 'AdvertTechnicalInformation')
+            ->orderBy('created_at', 'desc')->paginate(10);
+        return $adverts;
+    }
+
     public function getAdverts(Request $request) {
         $state = AdvertState::Active;
 
@@ -155,7 +164,7 @@ class AdvertController extends Controller
 
     public function show(Request $request, $id)
     {
-        $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name')->find($id);
+        $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->find($id);
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
         }
@@ -225,7 +234,7 @@ class AdvertController extends Controller
         return Advert::whereHas('favoritesUsers', function ($query) use ($request) {
             $query->where('favorites.user_id', '=', $request->user()->id);
         })
-        ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name')->get();
+        ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->get();
     }
 
     /**

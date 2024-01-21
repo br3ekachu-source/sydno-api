@@ -49,7 +49,9 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::delete('/user/avatar', [UserAvatarController::class, 'delete']);
 });
 
+Route::get('/user/{id}', [UserController::class, 'show']);
 
+Route::get('/useradverts/{id}', [AdvertController::class, 'getUserAdverts']);
 
 Route::get('/alladverts', [AdvertController::class, 'getAdverts']);
 
