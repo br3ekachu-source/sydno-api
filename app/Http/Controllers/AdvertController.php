@@ -202,7 +202,7 @@ class AdvertController extends Controller
 
     public function showForEdit(Request $request, $id)
     {
-        $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar,email')->find($id);
+        $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation')->find($id);
         if ($advert->user->id != $request->user()->id) {
             return response()->json(['message' => 'Нет прав'], 409);
         }
