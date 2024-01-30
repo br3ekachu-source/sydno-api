@@ -159,7 +159,13 @@ class AdvertController extends Controller
             $request->get('max_passangers_avialable') == null ?: $query->where('num_passangers', '<=', $request->get('max_passangers_avialable'));
         });
 
-        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->orderBy('created_at', 'desc')->paginate(10);
+        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy('created_at', 'desc')->paginate(10);
+
+        foreach ($adverts as $advert) {
+            $advert->user['adverts_count'] = $advert->user->adverts->count();
+            unset($advert->user->adverts);
+        }
+        return $adverts;
 
         if ($request->user() != null){
             $myFavorites = $request->user()->favorites();

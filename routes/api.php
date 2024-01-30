@@ -24,7 +24,6 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
 
     Route::post('adverts', [AdvertController::class, 'store']);
-    Route::get('adverts/{id}', [AdvertController::class, 'show']);
     Route::get('adverts/{id}/edit', [AdvertController::class, 'showForEdit']);
     Route::post('adverts/{id}/edit', [AdvertController::class, 'update']);
     Route::get('adverts/{id}/delete', [AdvertController::class, 'delete']);
