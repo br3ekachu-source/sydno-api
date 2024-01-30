@@ -26,7 +26,7 @@ class AdvertTechnicalInformationFactory extends Factory
             'overall_length' => fake()->randomFloat(1, 2, 50),
             'overall_width' => fake()->randomFloat(1, 2, 30),
             'board_height' => fake()->randomFloat(1, 0.5, 20),
-            'maximum_freeboard' => fake()->randomFloat(1, 0.5, 10),
+            'draft_in_cargo' => fake()->randomFloat(1, 0.5, 10),
             'material' => fake()->numberBetween(0, 4),
             'deadweight' => fake()->randomFloat(1, 100, 10000),
             'dock_weight' => fake()->randomFloat(1, 100, 30000),
@@ -42,12 +42,11 @@ class AdvertTechnicalInformationFactory extends Factory
             'second_bottom' => fake()->boolean(),
             'second_sides' => fake()->boolean(),
             'carrying' => fake()->randomFloat(1, 100, 10000),
-            'superstructures' => fake()->boolean(),
+            //'superstructures' => fake()->boolean(),
             'liquid_tanks' => $liquidTanks,
             'total_capacity_liquid_tanks' => $liquidTanks ? fake()->randomFloat(1, 100, 30000) : null,
             'passangers_avialable' => $passangersAvialable,
-            'num_passangers' => $passangersAvialable ? fake()->numberBetween(0, 200) : null,
-            'technical_documentation' => fake()->boolean()
+            'num_passangers' => $passangersAvialable ? fake()->numberBetween(0, 200) : null
         ];
     }
 }

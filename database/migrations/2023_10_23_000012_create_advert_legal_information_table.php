@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('advert_legal_information', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Advert::class);
+            $table->string('name'); //имя судна
             $table->char('flag', 2); //флаг
             $table->smallInteger('exploitation_type'); //тип эксплуатации
             $table->string('class_formula'); //формула класса
@@ -23,16 +24,18 @@ return new class extends Migration
             $table->smallInteger('type'); //тип судна
             $table->string('purpose'); //назначение судна
             $table->boolean('was_registered'); //находилось ли на учете
-            $table->date('register_valid_until')->nullable(); //учед действует до
+            $table->date('register_valid_until')->nullable(); //учед действует до (месяц, год)
             $table->smallInteger('vessel_status'); //статус судна
             $table->string('project_number'); //номер проекта
-            $table->string('building_number'); //строительный номер
+            $table->string('building_number')->nullable(); //строительный номер
             $table->year('building_year'); //год постройки
-            $table->char('building_country', 2); //страна постройки
-            $table->json('port_address')->nullable(); //порт приписки
+            $table->string('building_place')->nullable(); //место постройки
+            //$table->char('building_country', 2); //страна постройки
+            $table->json('port_address')->nullable(); //порт приписки (точность до города)
             $table->json('vessel_location')->nullable(); //местонахождение судна
             $table->string('imo_number')->nullable(); //номер imo
-            $table->timestamps();           
+            $table->boolean('technical_documentation'); //наличие технической документации
+            $table->timestamps();
         });
     }
 

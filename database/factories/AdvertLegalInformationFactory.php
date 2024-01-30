@@ -25,6 +25,7 @@ class AdvertLegalInformationFactory extends Factory
 
         return [
             'advert_id' => $this->faker->unique()->randomElement($ids),
+            'name' => fake()->sentence(3, true),
             'flag' => strtolower(fake()->countryCode()),
             'exploitation_type' => fake()->numberBetween(0, 1),
             'class_formula' => fake()->swiftBicNumber(),
@@ -38,10 +39,11 @@ class AdvertLegalInformationFactory extends Factory
             'project_number' => fake()->swiftBicNumber(),
             'building_number' => fake()->swiftBicNumber(),
             'building_year' => fake()->year(),
-            'building_country' => fake()->countryCode(),
+            'building_place' => fake()->city(),
             'port_address' => strtolower(fake()->address()),
             'vessel_location' => fake()->city(),
-            'imo_number' => fake()->swiftBicNumber()
+            'imo_number' => fake()->swiftBicNumber(),
+            'technical_documentation' => fake()->boolean()
         ];
     }
 }

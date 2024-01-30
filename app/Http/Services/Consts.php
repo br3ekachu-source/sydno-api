@@ -25,7 +25,7 @@ trait EnumToArray
 enum AdvertStateOnRU: string
 {
     use EnumToArray;
-    
+
     case Draft = 'Черновик'; //черновик
     case Moderation = 'На модерации'; //на модерации
     case Active = 'Активное'; //активное
@@ -59,10 +59,11 @@ class Consts
         return [
             0 => 'На холодном отстое',
             1 => 'Действующие документы',
-            2 => 'Без документов'
+            2 => 'Недействующие документы',
+            3 => 'Без документов'
         ];
     }
-    
+
     public static function getFrachtPriceTypes(){
         return [
             0 => 'Year',

@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class AdvertController extends Controller
 {
@@ -26,6 +29,19 @@ class AdvertController extends Controller
         $advert->forceFill($data);
         $advert->save();
         return $advert;
+    }
+
+    public function test()
+    {
+        //$photo = Http::get('https://i.imgur.com/DcoyVn3.png')->body();
+        //$contents = Http::get('https://i.imgur.com/DcoyVn3.png')->body();
+
+        $url = "https://i.imgur.com/DcoyVn3.png";
+        $contents = file_get_contents($url);
+        $name = 'advert_images/'.substr($url, strrpos($url, '/') + 1);
+        Storage::put($name, $contents);
+        //$path = Storage::putFile('adverts_images', 'https://i.imgur.com/DcoyVn3.png');
+        //echo ($photo);
     }
 
     public function getInfo(Request $request)
@@ -175,6 +191,25 @@ class AdvertController extends Controller
         }
         $advert->increment('views');
         return $advert;
+    }
+
+    public function showForEdit(Request $request, $id)
+    {
+        $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar,email')->find($id);
+        if ($advert->user->id != $request->user()->id) {
+            return response()->json(['message' => 'Нет прав'], 409);
+        }
+        if ($advert == null) {
+            return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
+        }
+
+        $response = $advert->toArray();
+        $response['advert_legal_information']['exploitation_type'] = $advert->AdvertLegalInformation->getRawOriginal('exploitation_type');
+        $response['advert_legal_information']['type'] = $advert->AdvertLegalInformation->getRawOriginal('type');
+        $response['advert_legal_information']['vessel_status'] = $advert->AdvertLegalInformation->getRawOriginal('vessel_status');
+        $response['advert_technical_information']['material'] = $advert->AdvertLegalInformation->getRawOriginal('material');
+
+        return $response;
     }
 
     public function delete($id)

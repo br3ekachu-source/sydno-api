@@ -22,7 +22,10 @@ Route::get('adverts/{id}', [AdvertController::class, 'show']);
 
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('/user', [UserController::class, 'get']);
-    Route::resource('adverts', AdvertController::class);
+
+    Route::post('adverts', [AdvertController::class, 'store']);
+    Route::get('adverts/{id}', [AdvertController::class, 'show']);
+    Route::get('adverts/{id}/edit', [AdvertController::class, 'showForEdit']);
     Route::post('adverts/{id}/edit', [AdvertController::class, 'update']);
     Route::get('adverts/{id}/delete', [AdvertController::class, 'delete']);
     Route::get('adverts/{id}/favorite', [AdvertController::class, 'setInFavorite']);
@@ -50,6 +53,8 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
 });
 
 Route::get('/user/{id}', [UserController::class, 'show']);
+
+Route::get('test', [AdvertController::class, 'test']);
 
 Route::get('/useradverts/{id}', [AdvertController::class, 'getUserAdverts']);
 
