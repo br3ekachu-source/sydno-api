@@ -21,16 +21,16 @@ return new class extends Migration
             //$table->float('maximum_freeboard'); //максимальный надводный борт
             $table->float('draft_in_cargo'); //осадка в грузу (не боьльше высоты борта)
             $table->smallInteger('material'); //материал корпуса
-            $table->float('deadweight'); //дедвейт
-            $table->float('dock_weight'); //доковый вес
-            $table->float('full_displacement'); //водоизмещение полное
-            $table->float('gross_tonnage'); //валовая вместимость
+            $table->float('deadweight')->nullable(); //дедвейт
+            $table->float('dock_weight')->nullable(); //доковый вес
+            $table->float('full_displacement')->nullable(); //водоизмещение полное
+            $table->float('gross_tonnage')->nullable(); //валовая вместимость
             $table->smallInteger('num_engines'); //кол-во двигателей
             $table->smallInteger('num_additional_engines'); //кол-во вспомогательных двигателей
             $table->float('power'); //мощность двигателей
             $table->float('maximum_speed_in_ballast')->nullable(); //максимальная скорость в балласте
             $table->float('maximum_speed_when_loaded')->nullable(); //максимальная скорость в грузу
-            $table->boolean('cargo_tanks'); //наличие грузовых танков
+            $table->boolean('cargo_tanks')->nullable(); //наличие грузовых танков
             $table->float('total_capacity_cargo_tanks')->nullable(); //суммарная вместимость грузовых танков
             $table->boolean('second_bottom'); //второе дно
             $table->boolean('second_sides'); //вторые борта

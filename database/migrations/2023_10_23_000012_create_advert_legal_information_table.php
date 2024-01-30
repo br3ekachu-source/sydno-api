@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('was_registered'); //находилось ли на учете
             $table->date('register_valid_until')->nullable(); //учед действует до (месяц, год)
             $table->smallInteger('vessel_status'); //статус судна
-            $table->string('project_number'); //номер проекта
+            $table->string('project_number')->nullable(); //номер проекта
             $table->string('building_number')->nullable(); //строительный номер
             $table->year('building_year'); //год постройки
             $table->string('building_place')->nullable(); //место постройки
