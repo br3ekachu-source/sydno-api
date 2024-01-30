@@ -165,7 +165,6 @@ class AdvertController extends Controller
             $advert->user['adverts_count'] = $advert->user->adverts->count();
             unset($advert->user->adverts);
         }
-        return $adverts;
 
         if ($request->user() != null){
             $myFavorites = $request->user()->favorites();
