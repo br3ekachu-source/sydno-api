@@ -7,6 +7,7 @@ use App\Models\AdvertLegalInformation;
 use App\Models\AdvertTechnicalInformation;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
         Advert::factory($advertsCount)->create();
         AdvertLegalInformation::factory($advertsCount)->create();
         AdvertTechnicalInformation::factory($advertsCount)->create();
+        DB::table('adverts')->update(['images' => '["advert_images\/R3Op9YuK7xG4wdZLbqtoqNVejllu83a1PGIXU62o.jpg","advert_images\/1shLCsbpsDCLLCDNmNBg60gcwYX6zNDvoCENsS1W.jpg","advert_images\/6pk4s07P8m44od2AApgQgiXmlWgJXYve8CP9Sr8m.jpg"]']);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
