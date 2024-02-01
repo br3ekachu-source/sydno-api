@@ -16,7 +16,7 @@ class AdvertTechnicalInformation extends Model
         'overall_length',
         'overall_width',
         'board_height',
-        'maximum_freeboard',
+        'draft_in_cargo',
         'material',
         'deadweight',
         'dock_weight',
@@ -32,13 +32,11 @@ class AdvertTechnicalInformation extends Model
         'second_bottom',
         'second_sides',
         'carrying',
-        'superstructures',
         'deckhouses',
         'liquid_tanks',
         'total_capacity_liquid_tanks',
         'passangers_avialable',
         'num_passangers',
-        'technical_documentation'
     ];
 
     public function advert(): BelongsTo
