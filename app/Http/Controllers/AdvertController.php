@@ -22,10 +22,6 @@ class AdvertController extends Controller
      */
     public function store(AdvertStoreRequest $request)
     {
-        //$contents = Storage::get('advert_images/1shLCsbpsDCLLCDNmNBg60gcwYX6zNDvoCENsS1W.jpg');
-        //return $contents;
-        return var_dump($request->images);
-
         $data = $request->all();
         $data['user_id'] = Auth::user()->id;
         $data['state'] = AdvertState::Draft;
