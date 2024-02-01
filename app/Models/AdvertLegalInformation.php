@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AdvertLegalInformation extends Model
 {
-    use HasFactory;  
- 
+    use HasFactory;
+
     protected $fillable = [
         'advert_id',
+        'name',
         'flag',
         'exploitation_type',
         'class_formula',
@@ -25,11 +26,12 @@ class AdvertLegalInformation extends Model
         'project_number',
         'building_number',
         'building_year',
-        'building_country',
+        'building_place',
         'port_address',
         'vessel_location',
         'imo_number',
-        'ice_strengthening'
+        'ice_strengthening',
+        'technical_documentation'
     ];
 
     public function advert(): BelongsTo

@@ -30,7 +30,6 @@ class Advert extends Model
 
     public function setImagesAttribute($value)
     {
-        echo var_dump($value);
         if($value != null){
             $imagesArray = [];
             foreach ($value as $key=>$image) {
