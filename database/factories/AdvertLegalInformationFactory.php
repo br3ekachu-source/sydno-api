@@ -40,18 +40,18 @@ class AdvertLegalInformationFactory extends Factory
             'building_number' => fake()->swiftBicNumber(),
             'building_year' => fake()->year(),
             'building_place' => fake()->city(),
-            'port_address' => '{
-                "value": "Краснодарский край, г Анапа",
-                "city": "Анапа",
-                "country": "Россия",
-                "region": "Краснодарский"
-            }',
-            'vessel_location' => '{
-                "value": "Краснодарский край, г Анапа",
-                "city": "Анапа",
-                "country": "Россия",
-                "region": "Краснодарский"
-            }',
+            'port_address' => [
+                'value' => 'Краснодарский край, г Анапа',
+                'city' => 'Анапа',
+                'country' => 'Россия',
+                'region' => 'Краснодарский'
+            ],
+            'vessel_location' => [
+                'value' => 'Краснодарский край, г Анапа',
+                'city' => 'Анапа',
+                'country' => 'Россия',
+                'region' => 'Краснодарский'
+            ],
             'imo_number' => fake()->swiftBicNumber(),
             'technical_documentation' => fake()->boolean()
         ];
