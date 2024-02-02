@@ -40,8 +40,8 @@ class AdvertLegalInformationFactory extends Factory
             'building_number' => fake()->swiftBicNumber(),
             'building_year' => fake()->year(),
             'building_place' => fake()->city(),
-            'port_address' => strtolower(fake()->address()),
-            'vessel_location' => fake()->city(),
+            'port_address' => '{"value":"\u0421\u0430\u0440\u0430\u0442\u043e\u0432\u0441\u043a\u0430\u044f \u043e\u0431\u043b, \u0433 \u042d\u043d\u0433\u0435\u043b\u044c\u0441","city":"\u042d\u043d\u0433\u0435\u043b\u044c\u0441","country":"\u0420\u043e\u0441\u0441\u0438\u044f","region":"\u0421\u0430\u0440\u0430\u0442\u043e\u0432\u0441\u043a\u0430\u044f"}',
+            'vessel_location' => '{"value":"\u0433 \u041c\u043e\u0441\u043a\u0432\u0430","city":"\u041c\u043e\u0441\u043a\u0432\u0430","country":"\u0420\u043e\u0441\u0441\u0438\u044f","region":"\u041c\u043e\u0441\u043a\u0432\u0430"}',
             'imo_number' => fake()->swiftBicNumber(),
             'technical_documentation' => fake()->boolean()
         ];

@@ -103,7 +103,7 @@ class AdvertController extends Controller
             ->where('user_id', '=', $userId)
             ->where('id', '<>', $currentAdvertId)
             ->with('AdvertLegalInformation', 'AdvertTechnicalInformation')
-            ->orderBy('created_at', 'desc')->simplePaginate(4);
+            ->orderBy('created_at', 'desc')->paginate(4);
         return $adverts;
     }
 
