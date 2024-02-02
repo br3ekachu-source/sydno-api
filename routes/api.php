@@ -57,6 +57,8 @@ Route::get('test', [AdvertController::class, 'test']);
 
 Route::get('/useradverts/{id}', [AdvertController::class, 'getUserAdverts']);
 
+Route::get('/otheruseradverts', [AdvertController::class, 'getOtherUserAdverts']);
+
 Route::get('/alladverts', [AdvertController::class, 'getAdverts']);
 
 Route::get('/allfrachts', [FrachtAdvertController::class, 'getAdverts']);

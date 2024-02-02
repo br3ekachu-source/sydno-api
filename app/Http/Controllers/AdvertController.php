@@ -86,12 +86,24 @@ class AdvertController extends Controller
         return $adverts;
     }
 
-    public function getUserAdverts($user_id)
+    public function getUserAdverts($userId)
     {
         $adverts = Advert::where('state', '=', AdvertState::Active)
-            ->where('user_id', '=', $user_id)
+            ->where('user_id', '=', $userId)
             ->with('AdvertLegalInformation', 'AdvertTechnicalInformation')
             ->orderBy('created_at', 'desc')->paginate(10);
+        return $adverts;
+    }
+
+    public function getOtherUserAdverts(Request $request)
+    {
+        $userId = $request->user_id;
+        $currentAdvertId = $request->current_advert;
+        $adverts = Advert::where('state', '=', AdvertState::Active)
+            ->where('user_id', '=', $userId)
+            ->where('id', '<>', $currentAdvertId)
+            ->with('AdvertLegalInformation', 'AdvertTechnicalInformation')
+            ->orderBy('created_at', 'desc')->simplePaginate(4);
         return $adverts;
     }
 
