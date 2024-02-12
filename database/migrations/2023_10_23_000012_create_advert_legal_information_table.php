@@ -20,7 +20,6 @@ return new class extends Migration
             $table->smallInteger('exploitation_type'); //тип эксплуатации
             $table->string('class_formula'); //формула класса
             $table->float('wave_limit'); //ограничение по высоте волны
-            $table->boolean('ice_strengthening'); //ледовое усиление
             $table->smallInteger('type'); //тип судна
             $table->string('purpose'); //назначение судна
             $table->boolean('was_registered'); //находилось ли на учете
@@ -29,6 +28,7 @@ return new class extends Migration
             $table->string('project_number')->nullable(); //номер проекта
             $table->string('building_number')->nullable(); //строительный номер
             $table->year('building_year'); //год постройки
+            $table->string('classification_society')->nullable();
             $table->string('building_place')->nullable(); //место постройки
             //$table->char('building_country', 2); //страна постройки
             $table->json('port_address')->nullable(); //порт приписки (точность до города)

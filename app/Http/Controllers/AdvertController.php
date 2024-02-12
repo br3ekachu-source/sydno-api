@@ -223,10 +223,11 @@ class AdvertController extends Controller
         }
 
         $response = $advert->toArray();
-        $response['advert_legal_information']['exploitation_type'] = $advert->AdvertLegalInformation->getRawOriginal('exploitation_type');
-        $response['advert_legal_information']['type'] = $advert->AdvertLegalInformation->getRawOriginal('type');
-        $response['advert_legal_information']['vessel_status'] = $advert->AdvertLegalInformation->getRawOriginal('vessel_status');
-        $response['advert_technical_information']['material'] = $advert->AdvertLegalInformation->getRawOriginal('material');
+
+        $response['advert_legal_information']['exploitation_type'] = $advert->AdvertLegalInformation == null ?: $advert->AdvertLegalInformation->getRawOriginal('exploitation_type');
+        $response['advert_legal_information']['type'] = $advert->AdvertLegalInformation == null ?: $advert->AdvertLegalInformation->getRawOriginal('type');
+        $response['advert_legal_information']['vessel_status'] = $advert->AdvertLegalInformation == null ?: $advert->AdvertLegalInformation->getRawOriginal('vessel_status');
+        $response['advert_technical_information']['material'] = $advert->AdvertLegalInformation == null ?: $advert->AdvertLegalInformation->getRawOriginal('material');
 
         return $response;
     }
