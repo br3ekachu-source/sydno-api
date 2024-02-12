@@ -30,7 +30,6 @@ class AdvertLegalInformation extends Model
         'port_address',
         'vessel_location',
         'imo_number',
-        'ice_strengthening',
         'technical_documentation'
     ];
 

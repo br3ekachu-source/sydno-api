@@ -26,10 +26,9 @@ return new class extends Migration
             $table->float('full_displacement')->nullable(); //водоизмещение полное
             $table->float('gross_tonnage')->nullable(); //валовая вместимость
             $table->smallInteger('num_engines'); //кол-во двигателей
-            $table->smallInteger('num_additional_engines'); //кол-во вспомогательных двигателей
+            $table->smallInteger('num_additional_engines'); //кол-во вспомогательных двигаßтелей
             $table->float('power'); //мощность двигателей
-            $table->float('maximum_speed_in_ballast')->nullable(); //максимальная скорость в балласте
-            $table->float('maximum_speed_when_loaded')->nullable(); //максимальная скорость в грузу
+            $table->float('maximum_speed')->nullable(); //максимальная скорость в грузу
             $table->boolean('cargo_tanks')->nullable(); //наличие грузовых танков
             $table->float('total_capacity_cargo_tanks')->nullable(); //суммарная вместимость грузовых танков
             $table->boolean('second_bottom'); //второе дно
