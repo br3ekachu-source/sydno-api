@@ -259,7 +259,7 @@ class AdvertController extends Controller
         $data = $request->all();
         $advert->forceFill($data);
         $advert->save();
-        return response()->json(['message' => 'Объявление обновлено успешно!'], 200);
+        return $advert;
     }
 
     public function setInFavorite(Request $request, $id) {
