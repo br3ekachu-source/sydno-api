@@ -22,7 +22,7 @@ class AdvertTechnicalInformationController extends Controller
         if ($advert->advertTechnicalInformation != null) {
             return response()->json(['message' => 'По указанному объявлению уже существует третий шаг'], 409);
         }
-        
+
         $data = $request->all();
         $data['advert_id'] = $advert->id;
         $advertTechnicalInformation = AdvertTechnicalInformation::create($data);
@@ -40,6 +40,6 @@ class AdvertTechnicalInformationController extends Controller
         $data = $request->all();
         $advertTechnicalInformation->forceFill($data);
         $advertTechnicalInformation->save();
-        return response()->json(['message' => 'Объявление обновлено успешно!'], 200); 
+        return $advertTechnicalInformation;
     }
 }

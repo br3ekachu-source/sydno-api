@@ -36,6 +36,6 @@ class AdvertLegalInformationController extends Controller
         $data = $request->all();
         $advertLegalInformation->forceFill($data);
         $advertLegalInformation->save();
-        return response()->json(['message' => 'Объявление обновлено успешно!'], 200); 
+        return $advertLegalInformation;
     }
 }
