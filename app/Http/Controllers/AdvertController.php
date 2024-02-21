@@ -6,19 +6,14 @@ use App\Http\Requests\AdvertStoreRequest;
 use App\Http\Requests\AdvertUpdateRequest;
 use App\Http\Services\AdvertState;
 use App\Models\Advert;
-use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\User;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 
 class AdvertController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Создание новой записи объявления
      */
     public function store(AdvertStoreRequest $request)
     {
@@ -31,19 +26,9 @@ class AdvertController extends Controller
         return $advert;
     }
 
-    public function test()
-    {
-        //$photo = Http::get('https://i.imgur.com/DcoyVn3.png')->body();
-        //$contents = Http::get('https://i.imgur.com/DcoyVn3.png')->body();
-
-        $url = "https://i.imgur.com/DcoyVn3.png";
-        $contents = file_get_contents($url);
-        $name = 'advert_images/'.substr($url, strrpos($url, '/') + 1);
-        Storage::put($name, $contents);
-        //$path = Storage::putFile('adverts_images', 'https://i.imgur.com/DcoyVn3.png');
-        //echo ($photo);
-    }
-
+    /**
+     * Получение количества всех объявлений пользователя
+     */
     public function getInfo(Request $request)
     {
         $activeCount = $request->user()->adverts->where('state', '=', AdvertState::Active)->count();
@@ -58,6 +43,9 @@ class AdvertController extends Controller
         ]);
     }
 
+    /**
+     * Получить все объявления текущего пользователя по состоянию
+     */
     public function getMyAdverts(Request $request, $state)
     {
         $thisState = null;
@@ -86,6 +74,9 @@ class AdvertController extends Controller
         return $adverts;
     }
 
+    /**
+     * Получить активные объявления пользователя по пользователю
+     */
     public function getUserAdverts($userId)
     {
         $adverts = Advert::where('state', '=', AdvertState::Active)
@@ -95,6 +86,9 @@ class AdvertController extends Controller
         return $adverts;
     }
 
+    /**
+     * Получить объявления пользователя, кроме текущего
+     */
     public function getOtherUserAdverts(Request $request)
     {
         $userId = $request->user_id;
@@ -107,13 +101,15 @@ class AdvertController extends Controller
         return $adverts;
     }
 
+    /**
+     * Все объявления о продаже, с фильтром
+     */
     public function getAdverts(Request $request) {
         $state = AdvertState::Active;
 
         $adverts = Advert::whereHas('AdvertLegalInformation', function (Builder $query) use($request) {
             $request->get('flag')                    == null ?: $query->where('flag', '=', $request->get('flag'));
             $request->get('class_formula')           == null ?: $query->where('class_formula', 'ilike', '%'.$request->get('class_formula').'%');
-            $request->get('ice_power')               == null ?: $query->where('ice_strengthening', '=', $request->get('ice_power'));
             $request->get('type')                    == null ?: $query->where('type', '=', $request->get('type'));
             $request->get('purpose')                 == null ?: $query->where('purpose', 'ilike', '%'.$request->get('purpose').'%');
             $request->get('was_registered')          == null ?: $query->where('was_registered', '=', $request->get('was_registered'));
@@ -152,10 +148,8 @@ class AdvertController extends Controller
             $request->get('num_engines')            == null ?: $query->where('num_engines', '=', $request->get('num_engines'));
             $request->get('min_power')              == null ?: $query->where('power', '>=', $request->get('min_power'));
             $request->get('max_power')              == null ?: $query->where('power', '<=', $request->get('max_power'));
-            $request->get('min_maximum_speed_in_ballast')   == null ?: $query->where('maximum_speed_in_ballast', '>=', $request->get('min_maximum_speed_in_ballast'));
-            $request->get('max_maximum_speed_in_ballast')   == null ?: $query->where('maximum_speed_in_ballast', '<=', $request->get('max_maximum_speed_in_ballast'));
-            $request->get('min_maximum_speed_when_loaded')  == null ?: $query->where('maximum_speed_when_loaded', '>=', $request->get('min_maximum_speed_when_loaded'));
-            $request->get('max_maximum_speed_when_loaded')  == null ?: $query->where('maximum_speed_when_loaded', '<=', $request->get('max_maximum_speed_when_loaded'));
+            $request->get('min_maximum_speed')   == null ?: $query->where('maximum_speed', '>=', $request->get('min_maximum_speed'));
+            $request->get('max_maximum_speed')   == null ?: $query->where('maximum_speed', '<=', $request->get('max_maximum_speed'));
             $request->get('cargo_tanks')            == null ?: $query->where('cargo_tanks', '=', $request->get('cargo_tanks'));
             $request->get('min_total_capacity_cargo_tanks') == null ?: $query->where('total_capacity_cargo_tanks', '>=', $request->get('min_total_capacity_cargo_tanks'));
             $request->get('max_total_capacity_cargo_tanks') == null ?: $query->where('total_capacity_cargo_tanks', '<=', $request->get('max_total_capacity_cargo_tanks'));
@@ -171,7 +165,7 @@ class AdvertController extends Controller
             $request->get('max_passangers_avialable') == null ?: $query->where('num_passangers', '<=', $request->get('max_passangers_avialable'));
         });
 
-        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy('created_at', 'desc')->paginate(10);
+        $adverts = $adverts->where('state', '=', $state)->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy('created_at', 'desc')->paginate(10);
 
         foreach ($adverts as $advert) {
             $advert->user['adverts_count'] = $advert->user->adverts->count();
@@ -194,7 +188,9 @@ class AdvertController extends Controller
         return $adverts;
     }
 
-
+    /**
+     * Получить объявление по айди
+     */
     public function show(Request $request, $id)
     {
         $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar,email', 'user.adverts')->find($id);
@@ -212,6 +208,9 @@ class AdvertController extends Controller
         return $advert;
     }
 
+    /**
+     * Получить объявление по айди для редактирования
+     */
     public function showForEdit(Request $request, $id)
     {
         $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation')->find($id);
@@ -232,6 +231,9 @@ class AdvertController extends Controller
         return $response;
     }
 
+    /**
+     * Перевести объявление в удаленное
+     */
     public function delete($id)
     {
         $advert = Advert::find($id);
@@ -249,7 +251,7 @@ class AdvertController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновить первый шаг объявления
      */
     public function update(AdvertUpdateRequest $request, $id) {
         $advert = Advert::find($id);
@@ -261,6 +263,7 @@ class AdvertController extends Controller
         $advert->save();
         return $advert;
     }
+
 
     public function setInFavorite(Request $request, $id) {
         $advert = Advert::find($id);
@@ -289,7 +292,7 @@ class AdvertController extends Controller
         return Advert::whereHas('favoritesUsers', function ($query) use ($request) {
             $query->where('favorites.user_id', '=', $request->user()->id);
         })
-        ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->get();
+        ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->paginate(10);
     }
 
     /**
