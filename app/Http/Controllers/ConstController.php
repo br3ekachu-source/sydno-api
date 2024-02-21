@@ -11,19 +11,19 @@ class ConstController extends Controller
         $consts = [];
 
         if ($request->has('vesseltypes')){
-            $consts['vessel_types'] = Consts::getVesselTypes();
+            $consts['vesseltypes'] = Consts::getVesselTypes();
         }
         if ($request->has('exploitationtypes')){
-            $consts['exploitation_types'] = Consts::getExploitationType();
+            $consts['exploitationtypes'] = Consts::getExploitationType();
         }
         if ($request->has('materials')){
             $consts['materials'] = Consts::getMaterials();
         }
         if ($request->has('vesselstatuses')){
-            $consts['vessel_statuses'] = Consts::getVesselStatuses();
+            $consts['vesselstatuses'] = Consts::getVesselStatuses();
         }
         if ($request->has('frachtpricetypes')){
-            $consts['fracht_price_types'] = Consts::getFrachtPriceTypes();
+            $consts['frachtpricetypes'] = Consts::getFrachtPriceTypes();
         }
         
         return response()->json(['message' => $consts]);
