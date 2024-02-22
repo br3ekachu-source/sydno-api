@@ -105,26 +105,33 @@ class AdvertController extends Controller
      * Все объявления о продаже, с фильтром
      */
     public function getAdverts(Request $request) {
-        $state = AdvertState::Active;
 
-        $adverts = Advert::whereHas('AdvertLegalInformation', function (Builder $query) use($request) {
+        $adverts = Advert::where(function (Builder $query) use($request) {
+            $query->where('state', '=', AdvertState::Active);
+            $request->get('min_price')           == null ?: $query->where('price', '>=', $request->get('min_price'));
+            $request->get('max_price')           == null ?: $query->where('price', '<=', $request->get('max_price'));
+        });
+
+        $adverts = $adverts->whereHas('AdvertLegalInformation', function (Builder $query) use($request) {
             $request->get('flag')                    == null ?: $query->where('flag', '=', $request->get('flag'));
             $request->get('class_formula')           == null ?: $query->where('class_formula', 'ilike', '%'.$request->get('class_formula').'%');
+            $request->get('name')           == null ?: $query->where('name', 'ilike', '%'.$request->get('name').'%');
             $request->get('type')                    == null ?: $query->where('type', '=', $request->get('type'));
             $request->get('purpose')                 == null ?: $query->where('purpose', 'ilike', '%'.$request->get('purpose').'%');
             $request->get('was_registered')          == null ?: $query->where('was_registered', '=', $request->get('was_registered'));
-            $request->get('register_valid_until')    == null ?: $query->where('register_valid_until', '>=', $request->get('register_valid_until'));
+            $request->get('register_valid_until')    == null ?: $query->whereYear('register_valid_until', '>=', $request->get('register_valid_until'));
             $request->get('vessel_status')           == null ?: $query->where('vessel_status', '=', $request->get('vessel_status'));
             $request->get('project_number')          == null ?: $query->where('project_number', '=', $request->get('project_number'));
             $request->get('exploitation_type')       == null ?: $query->where('exploitation_type', '=', $request->get('exploitation_type'));
             $request->get('building_number')         == null ?: $query->where('building_number', 'ilike', '%'.$request->get('building_number').'%');
-            $request->get('building_year')           == null ?: $query->where('building_year', '=', $request->get('building_year'));
+            $request->get('min_building_year')           == null ?: $query->where('building_year', '>=', $request->get('min_building_year'));
+            $request->get('max_building_year')           == null ?: $query->where('building_year', '<=', $request->get('max_building_year'));
             $request->get('building_country')        == null ?: $query->where('building_country', '=', $request->get('building_country'));
             $request->get('port_adress_country')     == null ?: $query->whereJsonContains('port_address->country', $request->get('port_adress_country'));
             $request->get('port_adress_city')        == null ?: $query->whereJsonContains('port_address->city', $request->get('port_adress_city'));
-            $request->get('vessel_location_country') == null ?: $query->whereJsonContains('vessel_location->country', $request->get('vessel_location_country'));
             $request->get('vessel_location_city')    == null ?: $query->whereJsonContains('vessel_location->city', $request->get('vessel_location_city'));
             $request->get('imo_number')              == null ?: $query->where('imo_number', 'ilike', '%'.$request->get('imo_number').'%');
+            $request->get('technical_documentation') == null ?: $query->where('technical_documentation', '=', $request->get('technical_documentation'));
         });
 
         $adverts->whereHas('AdvertTechnicalInformation', function (Builder $query) use($request) {
@@ -132,8 +139,8 @@ class AdvertController extends Controller
             $request->get('max_overall_length')     == null ?: $query->where('overall_length', '<=', $request->get('max_overall_length'));
             $request->get('min_overall_width')      == null ?: $query->where('overall_width', '>=', $request->get('min_overall_width'));
             $request->get('max_overall_width')      == null ?: $query->where('overall_width', '<=', $request->get('max_overall_width'));
-            $request->get('min_board_height')       == null ?: $query->where('overall_width', '>=', $request->get('min_board_height'));
-            $request->get('max_board_height')       == null ?: $query->where('overall_width', '<=', $request->get('max_board_height'));
+            $request->get('min_board_height')       == null ?: $query->where('board_height', '>=', $request->get('min_board_height'));
+            $request->get('max_board_height')       == null ?: $query->where('board_height', '<=', $request->get('max_board_height'));
             $request->get('min_maximum_freeboard')  == null ?: $query->where('maximum_freeboard', '>=', $request->get('min_maximum_freeboard'));
             $request->get('max_maximum_freeboard')  == null ?: $query->where('maximum_freeboard', '<=', $request->get('max_maximum_freeboard'));
             $request->get('material')               == null ?: $query->where('material', '=', $request->get('material'));
@@ -145,6 +152,10 @@ class AdvertController extends Controller
             $request->get('max_full_displacement')  == null ?: $query->where('full_displacement', '<=', $request->get('max_full_displacement'));
             $request->get('min_gross_tonnage')      == null ?: $query->where('gross_tonnage', '>=', $request->get('min_gross_tonnage'));
             $request->get('max_gross_tonnage')      == null ?: $query->where('gross_tonnage', '<=', $request->get('max_gross_tonnage'));
+            $request->get('min_num_engines')      == null ?: $query->where('num_engines', '>=', $request->get('min_num_engines'));
+            $request->get('max_num_engines')      == null ?: $query->where('num_engines', '<=', $request->get('max_num_engines'));
+            $request->get('min_num_additional_engines')      == null ?: $query->where('num_additional_engines', '>=', $request->get('min_num_additional_engines'));
+            $request->get('max_num_additional_engines')      == null ?: $query->where('num_additional_engines', '<=', $request->get('max_num_additional_engines'));
             $request->get('num_engines')            == null ?: $query->where('num_engines', '=', $request->get('num_engines'));
             $request->get('min_power')              == null ?: $query->where('power', '>=', $request->get('min_power'));
             $request->get('max_power')              == null ?: $query->where('power', '<=', $request->get('max_power'));
@@ -165,7 +176,7 @@ class AdvertController extends Controller
             $request->get('max_passangers_avialable') == null ?: $query->where('num_passangers', '<=', $request->get('max_passangers_avialable'));
         });
 
-        $adverts = $adverts->where('state', '=', $state)->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy('created_at', 'desc')->paginate(10);
+        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy('created_at', 'desc')->paginate(10);
 
         foreach ($adverts as $advert) {
             $advert->user['adverts_count'] = $advert->user->adverts->count();
