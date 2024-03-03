@@ -6,6 +6,7 @@ use App\Http\Requests\AdvertStoreRequest;
 use App\Http\Requests\AdvertUpdateRequest;
 use App\Http\Services\AdvertState;
 use App\Models\Advert;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
@@ -105,7 +106,6 @@ class AdvertController extends Controller
      * Все объявления о продаже, с фильтром
      */
     public function getAdverts(Request $request) {
-
         $adverts = Advert::where(function (Builder $query) use($request) {
             $query->where('state', '=', AdvertState::Active);
             $request->get('min_price')           == null ?: $query->where('price', '>=', $request->get('min_price'));
@@ -184,9 +184,9 @@ class AdvertController extends Controller
         }
 
         if ($request->user() != null){
-            $myFavorites = $request->user()->favorites();
+            $myFavorites = Favorite::where('user_id', '=', $request->user()->id)->select('advert_id')->get();
             foreach ($adverts as $advert) {
-                $advert['in_favorites'] = $myFavorites->where('advert_id', '=', $advert->id)->exists() ? true : false;
+                $advert['in_favorites'] = $myFavorites->contains('advert_id', $advert->id) ? true : false;
             }
         }
         else {
@@ -299,7 +299,6 @@ class AdvertController extends Controller
     }
 
     public function getFavorites(Request $request) {
-
         return Advert::whereHas('favoritesUsers', function ($query) use ($request) {
             $query->where('favorites.user_id', '=', $request->user()->id);
         })
