@@ -220,6 +220,18 @@ class AdvertController extends Controller
     }
 
     /**
+     * Получить метадату по айди
+     */
+    public function metadata($id)
+    {
+        $advert = Advert::select('header', 'description')->find($id);
+        if ($advert == null) {
+            return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
+        }
+        return $advert;
+    }
+
+    /**
      * Получить объявление по айди для редактирования
      */
     public function showForEdit(Request $request, $id)
