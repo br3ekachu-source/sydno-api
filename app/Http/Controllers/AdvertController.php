@@ -210,11 +210,7 @@ class AdvertController extends Controller
         }
         $advert->user['adverts_count'] = $advert->user->adverts->count();
         unset($advert->user->adverts);
-        if ($request->user() != null) {
-            $advert['in_favorites'] = Favorite::where('user_id', '=', $request->user()->id)->where('advert_id', '=', $advert->id)->first() != null;
-        } else {
-            $advert['in_favorites'] = false;
-        }
+        $advert['in_favorites'] = true;
         $advert->increment('views');
         return $advert;
     }
