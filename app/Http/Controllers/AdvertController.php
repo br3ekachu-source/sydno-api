@@ -211,7 +211,7 @@ class AdvertController extends Controller
         $advert->user['adverts_count'] = $advert->user->adverts->count();
         unset($advert->user->adverts);
         if ($request->user() != null) {
-            $advert['in_favorites'] = $request->user()->favorites()->where('advert_id', $advert->id)->exists() ? true : false;
+            $advert['in_favorites'] = Favorite::where('user_id', '=', $request->user()->id)->where('advert_id', '=', $advert->id)->first() != null;
         } else {
             $advert['in_favorites'] = false;
         }
@@ -299,10 +299,22 @@ class AdvertController extends Controller
     }
 
     public function getFavorites(Request $request) {
-        return Advert::whereHas('favoritesUsers', function ($query) use ($request) {
+        $adverts = Advert::whereHas('favoritesUsers', function ($query) use ($request) {
             $query->where('favorites.user_id', '=', $request->user()->id);
         })
         ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->paginate(10);
+        if ($request->user() != null){
+            $myFavorites = Favorite::where('user_id', '=', $request->user()->id)->select('advert_id')->get();
+            foreach ($adverts as $advert) {
+                $advert['in_favorites'] = $myFavorites->contains('advert_id', $advert->id) ? true : false;
+            }
+        }
+        else {
+            foreach ($adverts as $advert) {
+                $advert['in_favorites'] = false;
+            }
+        }
+        return $adverts;
     }
 
     /**
