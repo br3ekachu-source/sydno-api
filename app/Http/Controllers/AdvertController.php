@@ -200,22 +200,14 @@ class AdvertController extends Controller
     }
 
     /**
-     * Получить объявление по айди
+     * Получить метадату по айди
      */
-    public function show(Request $request, $id)
+    public function metadata($id)
     {
-        $advert = Advert::with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar,email', 'user.adverts')->find($id);
+        $advert = Advert::select('header', 'description')->find($id);
         if ($advert == null) {
             return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
         }
-        $advert->user['adverts_count'] = $advert->user->adverts->count();
-        unset($advert->user->adverts);
-        if ($request->user() != null) {
-            $advert['in_favorites'] = Favorite::where('user_id', '=', $request->user()->id)->where('advert_id', '=', $advert->id)->first() != null;
-        } else {
-            $advert['in_favorites'] = false;
-        }
-        $advert->increment('views');
         return $advert;
     }
 

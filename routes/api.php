@@ -18,6 +18,7 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('adverts/favorites', [AdvertController::class, 'getFavorites']);
 });
 
+Route::get('adverts/{id}/metadata', [AdvertController::class, 'metadata']);//для вкладки
 Route::get('adverts/{id}', [AdvertController::class, 'show']);
 
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
