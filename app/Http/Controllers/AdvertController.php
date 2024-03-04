@@ -211,23 +211,11 @@ class AdvertController extends Controller
         $advert->user['adverts_count'] = $advert->user->adverts->count();
         unset($advert->user->adverts);
         if ($request->user() != null) {
-            $advert['in_favorites'] = Favorite::where('user_id', '=', $request->user()->id)->where('advert_id', '=', $advert->id)->first();
+            $advert['in_favorites'] = Favorite::where('user_id', '=', $request->user()->id)->where('advert_id', '=', $advert->id)->exist() != null;
         } else {
             $advert['in_favorites'] = false;
         }
         $advert->increment('views');
-        return $advert;
-    }
-
-    /**
-     * Получить метадату по айди
-     */
-    public function metadata($id)
-    {
-        $advert = Advert::select('header', 'description')->find($id);
-        if ($advert == null) {
-            return response()->json(['message' => 'Объявление с указанным айди не найдено!'], 409);
-        }
         return $advert;
     }
 
