@@ -60,8 +60,18 @@ class Advert extends Model
         return $this->hasOne(AdvertTechnicalInformation::class);
     }
 
-    // public function getAdvertTypeAttribute($value)
-    // {
-    //     return Consts::getAdvertTypes()[$value];
-    // }
+    public function getAdvertTypeAttribute($value)
+    {
+        return Consts::getAdvertTypes()[$value];
+    }
+
+    public function getFrachtTypeAttribute($value)
+    {
+        return Consts::getFrachtTypes()[$value];
+    }
+
+    public function getFrachtPriceTypeAttribute($value)
+    {
+        return Consts::getFrachtPriceTypes()[$value];
+    }
 }

@@ -246,6 +246,9 @@ class AdvertController extends Controller
 
         $response = $advert->toArray();
 
+        $advert->AdvertLegalInformation == null ?: $response['advert']['advert_type'] = $advert->AdvertLegalInformation->getRawOriginal('advert_type');
+        $advert->AdvertLegalInformation == null ?: $response['advert']['fracht_price_type'] = $advert->AdvertLegalInformation->getRawOriginal('fracht_price_type');
+        $advert->AdvertLegalInformation == null ?: $response['advert']['fracht_type'] = $advert->AdvertLegalInformation->getRawOriginal('fracht_type');
         $advert->AdvertLegalInformation == null ?: $response['advert_legal_information']['exploitation_type'] = $advert->AdvertLegalInformation->getRawOriginal('exploitation_type');
         $advert->AdvertLegalInformation == null ?: $response['advert_legal_information']['type'] = $advert->AdvertLegalInformation->getRawOriginal('type');
         $advert->AdvertLegalInformation == null ?: $response['advert_legal_information']['vessel_status'] = $advert->AdvertLegalInformation->getRawOriginal('vessel_status');

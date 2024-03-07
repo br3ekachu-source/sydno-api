@@ -79,14 +79,23 @@ class Consts
         return [
             0 => 'Год',
             1 => 'Месяц',
-            2 => 'День'
+            2 => 'День',
+            null => null
+        ];
+    }
+
+    public static function getFrachtTypes(){
+        return [
+            0 => 'Тайм чартер (с командой)',
+            1 => 'Бербоут чартер (без команды)',
+            null => null
         ];
     }
 
     public static function getAdvertTypes(){
         return [
             0 => 'Продажа',
-            1 => 'Фрахт (аренда)'
+            1 => 'Фрахт (аренда)',
         ];
     }
 
