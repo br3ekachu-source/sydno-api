@@ -53,6 +53,17 @@ enum ExploitationType:int {
     case NonCommercial = 1;//некоммерческое
 }
 
+enum AdvertType:int {
+    case Sale = 0;//Продажа
+    case Fracht = 1;//Фрахт
+}
+
+enum FrachtPriceType:int {
+    case Year = 0;
+    case Month = 1;
+    case Day = 2;
+}
+
 class Consts
 {
     public static function getVesselStatuses(){
@@ -66,9 +77,16 @@ class Consts
 
     public static function getFrachtPriceTypes(){
         return [
-            0 => 'Year',
-            1 => 'Month',
-            2 => 'Day'
+            0 => 'Год',
+            1 => 'Месяц',
+            2 => 'День'
+        ];
+    }
+
+    public static function getAdvertTypes(){
+        return [
+            0 => 'Продажа',
+            1 => 'Фрахт (аренда)'
         ];
     }
 

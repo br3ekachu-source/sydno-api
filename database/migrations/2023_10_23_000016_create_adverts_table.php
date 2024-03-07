@@ -15,14 +15,17 @@ return new class extends Migration
         Schema::create('adverts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class); //пользователь
+            $table->smallInteger('advert_type'); //тип объявления
             $table->string('registration_number');
-            $table->integer('price'); //цена
+            $table->integer('price')->nullable(); //цена
             $table->smallInteger('state'); //статус объявления
             $table->json('images')->nullable(); //фотографии
             $table->string('header'); //заголовок
             $table->text('description'); //описание
             $table->string('phone_number'); //номер телефона
             $table->integer('views')->default(0); //просмотры
+            $table->smallInteger('fracht_type')->nullable(); //тип аренды
+            $table->smallInteger('fracht_price_type')->nullable(); //тип промежутка цены аренды
             $table->timestamps(); //дата создания объявления
         });
     }

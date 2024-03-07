@@ -55,9 +55,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Advert::class, 'favorites', 'user_id', 'advert_id')->withTimeStamps();
     }
-
-    public function frachtAdverts(): HasMany
-    {
-        return $this->hasMany(FrachtAdvert::class);
-    }
 }
