@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdvertStoreRequest;
 use App\Http\Requests\AdvertUpdateRequest;
 use App\Http\Services\AdvertState;
+use App\Http\Services\AdvertType;
 use App\Models\Advert;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
@@ -71,7 +72,7 @@ class AdvertController extends Controller
         $adverts = Advert::where('state', '=', $thisState)
             ->where('user_id', '=', $request->user()->id)
             ->with('AdvertLegalInformation', 'AdvertTechnicalInformation')
-            ->orderBy('created_at', 'desc')->paginate(10);
+            ->orderBy('created_at', 'desc')->paginate(12);
         return $adverts;
     }
 
@@ -83,7 +84,7 @@ class AdvertController extends Controller
         $adverts = Advert::where('state', '=', AdvertState::Active)
             ->where('user_id', '=', $userId)
             ->with('AdvertLegalInformation', 'AdvertTechnicalInformation')
-            ->orderBy('created_at', 'desc')->paginate(10);
+            ->orderBy('created_at', 'desc')->paginate(12);
         return $adverts;
     }
 
@@ -108,6 +109,7 @@ class AdvertController extends Controller
     public function getAdverts(Request $request) {
         $adverts = Advert::where(function (Builder $query) use($request) {
             $query->where('state', '=', AdvertState::Active);
+            $request->get('advert_type')           == null ?: $query->where('advert_type', '=', $request->get('advert_type'));
             $request->get('min_price')           == null ?: $query->where('price', '>=', $request->get('min_price'));
             $request->get('max_price')           == null ?: $query->where('price', '<=', $request->get('max_price'));
         });
@@ -176,7 +178,7 @@ class AdvertController extends Controller
             $request->get('max_passangers_avialable') == null ?: $query->where('num_passangers', '<=', $request->get('max_passangers_avialable'));
         });
 
-        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy('created_at', 'desc')->paginate(10);
+        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy('created_at', 'desc')->paginate(12);
 
         foreach ($adverts as $advert) {
             $advert->user['adverts_count'] = $advert->user->adverts->count();
@@ -246,7 +248,6 @@ class AdvertController extends Controller
 
         $response = $advert->toArray();
 
-        $advert->AdvertLegalInformation == null ?: $response['advert']['advert_type'] = $advert->AdvertLegalInformation->getRawOriginal('advert_type');
         $advert->AdvertLegalInformation == null ?: $response['advert']['fracht_price_type'] = $advert->AdvertLegalInformation->getRawOriginal('fracht_price_type');
         $advert->AdvertLegalInformation == null ?: $response['advert']['fracht_type'] = $advert->AdvertLegalInformation->getRawOriginal('fracht_type');
         $advert->AdvertLegalInformation == null ?: $response['advert_legal_information']['exploitation_type'] = $advert->AdvertLegalInformation->getRawOriginal('exploitation_type');
@@ -317,7 +318,7 @@ class AdvertController extends Controller
         $adverts = Advert::whereHas('favoritesUsers', function ($query) use ($request) {
             $query->where('favorites.user_id', '=', $request->user()->id);
         })
-        ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->paginate(10);
+        ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->paginate(12);
         if ($request->user() != null){
             $myFavorites = Favorite::where('user_id', '=', $request->user()->id)->select('advert_id')->get();
             foreach ($adverts as $advert) {

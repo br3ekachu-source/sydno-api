@@ -39,16 +39,6 @@ Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::resource('advertstechnicalinformation', AdvertTechnicalInformationController::class);
     Route::post('advertstechnicalinformation/{id}/edit', [AdvertTechnicalInformationController::class, 'update']);
 
-    Route::resource('frachtadverts', FrachtAdvertController::class);
-    Route::post('frachtadverts/{id}/edit', [FrachtAdvertController::class, 'update']);
-    Route::get('frachtadverts/{id}/delete', [FrachtAdvertController::class, 'delete']);
-    Route::get('frachtadvertsinfo', [FrachtAdvertController::class, 'getInfo']);
-    Route::get('frachtmyadverts/{state}', [FrachtAdvertController::class, 'getMyAdverts']);
-    Route::resource('crachtlegalinfo', FrachtAdvertLegalInformationController::class);
-    Route::post('frachtlegalinfo/{id}/edit', [FrachtAdvertLegalInformationController::class, 'update']);
-    Route::resource('frachttechinfo', FrachtAdvertTechnicalInformationController::class);
-    Route::post('frachttechinfo/{id}/edit', [FrachtAdvertTechnicalInformationController::class, 'update']);
-
     Route::post('/user/avatar', [UserAvatarController::class, 'update']);
     Route::get('/user/avatar', [UserAvatarController::class, 'get']);
     Route::delete('/user/avatar', [UserAvatarController::class, 'delete']);
@@ -63,8 +53,6 @@ Route::get('/useradverts/{id}', [AdvertController::class, 'getUserAdverts']);
 Route::get('/otheruseradverts', [AdvertController::class, 'getOtherUserAdverts']);
 
 Route::get('/alladverts', [AdvertController::class, 'getAdverts']);
-
-Route::get('/allfrachts', [FrachtAdvertController::class, 'getAdverts']);
 
 Route::get('selector', [ConstController::class, 'getSelectors']);
 
