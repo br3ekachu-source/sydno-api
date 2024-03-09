@@ -178,7 +178,35 @@ class AdvertController extends Controller
             $request->get('max_passangers_avialable') == null ?: $query->where('num_passangers', '<=', $request->get('max_passangers_avialable'));
         });
 
-        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy('created_at', 'desc')->paginate(12);
+        $orderBy = 'created_at';
+        $sort = 'desc';
+
+        if ($request->get('sort') != null)
+        {
+            switch ($request->get('sort')) {
+                case 'price_asc':
+                    $orderBy = 'price';
+                    $sort = 'asc';
+                    break;
+                case 'price_desc':
+                    $orderBy = 'price';
+                    $sort = 'desc';
+                    break;
+                case 'date':
+                    $orderBy = 'created_at';
+                    $sort = 'desc';
+                    break;
+                case 'views':
+                    $orderBy = 'views';
+                    $sort = 'desc';
+                    break;
+                default:
+                    $orderBy = 'created_at';
+                    $sort = 'desc';
+                    break;
+            }
+        }
+        $adverts = $adverts->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar', 'user.adverts')->orderBy($orderBy, $sort)->paginate(12);
 
         foreach ($adverts as $advert) {
             $advert->user['adverts_count'] = $advert->user->adverts->count();
