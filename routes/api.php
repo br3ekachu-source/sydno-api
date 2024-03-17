@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 
 Route::middleware('auth:sanctum'/*, 'verified'*/)->group(function () {
     Route::get('adverts/favorites', [AdvertController::class, 'getFavorites']);
+    Route::get('adverts/recentlyviews', [AdvertController::class, 'getRecentlyViews']);
 });
 
 

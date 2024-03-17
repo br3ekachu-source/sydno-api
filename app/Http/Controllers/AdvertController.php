@@ -7,6 +7,7 @@ use App\Http\Requests\AdvertUpdateRequest;
 use App\Http\Services\AdvertState;
 use App\Http\Services\AdvertType;
 use App\Models\Advert;
+use App\Models\AdvertView;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -245,7 +246,9 @@ class AdvertController extends Controller
         } else {
             $advert['in_favorites'] = false;
         }
-        $advert->increment('views');
+        if ($request->user() != null && $advert->user->id != $request->user()->id && !$request->user()->advertViews()->where('advert_id', $id)->exists()) {
+            $request->user()->advertViews()->attach($id);
+        }
         return $advert;
     }
 
@@ -319,7 +322,6 @@ class AdvertController extends Controller
         return $advert;
     }
 
-
     public function setInFavorite(Request $request, $id) {
         $advert = Advert::find($id);
         if ($advert == null) {
@@ -358,6 +360,14 @@ class AdvertController extends Controller
                 $advert['in_favorites'] = false;
             }
         }
+        return $adverts;
+    }
+
+    public function getRecentlyViews(Request $request) {
+        $adverts = Advert::whereHas('viewsUsers', function ($query) use ($request) {
+            $query->where('advert_views.user_id', '=', $request->user()->id);
+        })
+        ->with('AdvertLegalInformation', 'AdvertTechnicalInformation', 'user:id,name,avatar')->paginate(12);
         return $adverts;
     }
 

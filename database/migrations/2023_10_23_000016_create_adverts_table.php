@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('header'); //заголовок
             $table->text('description'); //описание
             $table->string('phone_number'); //номер телефона
-            $table->integer('views')->default(0); //просмотры
             $table->smallInteger('fracht_type')->nullable(); //тип аренды
             $table->smallInteger('fracht_price_type')->nullable(); //тип промежутка цены аренды
             $table->timestamps(); //дата создания объявления
