@@ -50,7 +50,7 @@ class AdvertFactory extends Factory
             'header' => fake()->sentence(3, true),
             'description' => fake()->text(),
             'phone_number' => fake()->phoneNumber(),
-            'views' => fake()->numberBetween(0, 5000),
+            //'views' => fake()->numberBetween(0, 5000),
             'fracht_price_type' => $frachtPriceType,
             'fracht_type' => $frachtType
             //'images' => '["advert_images\/R3Op9YuK7xG4wdZLbqtoqNVejllu83a1PGIXU62o.jpg","advert_images\/1shLCsbpsDCLLCDNmNBg60gcwYX6zNDvoCENsS1W.jpg","advert_images\/6pk4s07P8m44od2AApgQgiXmlWgJXYve8CP9Sr8m.jpg"]'
